@@ -1,0 +1,19 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "lerna run build",
+    "sort-package": "sort-package-json 'package.json', 'packages/*/package.json'",
+    "start:ui:dev": "yarn workspace @turnip-market/ui start",
+    "start:ui:prod": "yarn workspace @turnip-market/ui build && yarn workspace @turnip-market/ui start:prod"
+  },
+  "devDependencies": {
+    "lerna": "^3.20.2",
+    "prettier": "^2.0.1",
+    "rimraf": "^3.0.2",
+    "sort-package-json": "^1.40.0"
+  }
+}
