@@ -10,8 +10,13 @@ export default class NotificationManager {
     message.error(NotificationManager.ToMessage(notification));
   }
 
+  static ShowInfo(content: string) {
+    const notification: NotificationDto = { content };
+    message.info(NotificationManager.ToMessage(notification));
+  }
+
   private static ToMessage(notification: NotificationDto): string {
     const { title, content } = notification;
-    return `${title}\n${content}`;
+    return [title, content].join("\n");
   }
 }

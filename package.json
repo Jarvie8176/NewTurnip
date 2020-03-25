@@ -2,11 +2,14 @@
   "name": "root",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/dtos",
+    "packages/ui",
+    "packages/api"
   ],
   "scripts": {
     "build": "lerna run build",
     "sort-package": "sort-package-json 'package.json', 'packages/*/package.json'",
+    "start:api:dev": "yarn workspace @turnip-market/api start:dev",
     "start:ui:dev": "yarn workspace @turnip-market/ui start",
     "start:ui:prod": "yarn workspace @turnip-market/ui build && yarn workspace @turnip-market/ui start:prod"
   },
