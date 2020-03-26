@@ -11,7 +11,7 @@ export default class MainPage extends PureComponent {
         </Layout.Header>
         <Layout.Content>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <img src={"gUlxvTr.png"} style={{ maxWidth: "100vw" }} />
+            <img src={"gUlxvTr.png"} style={{ maxWidth: "100vw" }} alt={"meme"} />
           </div>
 
           <PriceRecords />
