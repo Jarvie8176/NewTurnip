@@ -2,8 +2,6 @@ import { makeUuid } from "@ansik/sdk/lib/utils";
 import { Injectable } from "@nestjs/common";
 import { UsersEntity } from "./users.entity";
 
-export type User = any;
-
 @Injectable()
 export class UsersService {
   private readonly users: UsersEntity[];

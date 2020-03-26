@@ -9,6 +9,7 @@
     "declaration": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "allowJs": false
+    "allowJs": false,
+    "skipLibCheck": true
   }
 }

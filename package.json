@@ -9,6 +9,7 @@
   "scripts": {
     "clear-dep": "lerna clean -y && rimraf node_modules",
     "build": "lerna run build",
+    "build:declarations": "lerna run --parallel 'build:declaration'",
     "sort-package": "sort-package-json 'package.json', 'packages/*/package.json'",
     "start:api:dev": "yarn workspace @turnip-market/api start:dev",
     "start:ui:dev": "yarn workspace @turnip-market/ui start",
@@ -18,7 +19,6 @@
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
     "eslint": "^6.8.0",
-    "eslint-config-node": "^4.0.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-config-standard": "^14.1.1",
     "eslint-config-typescript": "^3.0.0",

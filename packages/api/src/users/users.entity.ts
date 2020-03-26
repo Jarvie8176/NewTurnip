@@ -8,7 +8,7 @@ interface UsersDto extends User.Type {
   email: string;
 }
 
-export interface ValidatedUser extends Omit<UsersDto, "password"> {}
+export type ValidatedUser = Omit<UsersDto, "password">;
 
 @Entity("users")
 export class UsersEntity implements UsersDto {

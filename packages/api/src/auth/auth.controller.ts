@@ -1,10 +1,10 @@
 import { Controller, Post, Req, UseGuards } from "@nestjs/common";
-import { User } from "@turnip-market/dtos";
+import { Request } from "express";
 import { ValidatedUser } from "../users/users.entity";
 import { AuthService } from "./auth.service";
 import { LocalAuthGuard } from "./local-auth.guard";
 
-interface IReq extends User.Type {
+interface ValidatedReq extends Request {
   user: ValidatedUser;
 }
 
@@ -14,7 +14,7 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post("login")
-  async login(@Req() req: IReq) {
+  async login(@Req() req: ValidatedReq): Promise<AuthResult> {
     console.log(req.user);
     return this.authService.login(req.user);
   }
