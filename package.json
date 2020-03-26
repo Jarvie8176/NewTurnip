@@ -9,11 +9,18 @@
   "scripts": {
     "clear-dep": "lerna clean -y && rimraf node_modules",
     "build": "lerna run build",
+    "lint": "lerna run lint",
     "build:declarations": "lerna run --parallel 'build:declaration'",
     "sort-package": "sort-package-json 'package.json', 'packages/*/package.json'",
     "start:api:dev": "yarn workspace @turnip-market/api start:dev",
     "start:ui:dev": "yarn workspace @turnip-market/ui start",
-    "start:ui:prod": "yarn workspace @turnip-market/ui build && yarn workspace @turnip-market/ui start:prod"
+    "start:ui:prod": "yarn workspace @turnip-market/ui build && yarn workspace @turnip-market/ui start:prod",
+    "pretest": "yarn lint"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn pretest"
+    }
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.25.0",

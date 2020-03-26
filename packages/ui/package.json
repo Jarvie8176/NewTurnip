@@ -8,7 +8,8 @@
     "start": "react-app-rewired start",
     "start:prod": "serve -s build",
     "test": "react-app-rewired test",
-    "schema:sync": "yarn workspace @turnip-market/api typeorm schema:sync"
+    "schema:sync": "yarn workspace @turnip-market/api typeorm schema:sync",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\""
   },
   "browserslist": {
     "production": [
