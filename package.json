@@ -7,7 +7,7 @@
     "packages/api"
   ],
   "scripts": {
-    "clear-dep": "lerna clean -y && rimraf node_modules",
+    "clear-dep": "lerna clean -y && echo 'remove node_modules'; rimraf node_modules",
     "build": "lerna run build",
     "lint": "lerna run lint",
     "build:declarations": "lerna run --parallel 'build:declaration'",

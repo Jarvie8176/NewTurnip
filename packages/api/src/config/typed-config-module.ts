@@ -1,9 +1,8 @@
 import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { TypedConfigService } from "./typed-config.service";
 
 @Module({
-  imports: [ConfigModule.forRoot()],
+  imports: [],
   providers: [TypedConfigService],
   exports: [TypedConfigService],
 })
