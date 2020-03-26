@@ -11,9 +11,9 @@ interface IProps {
 export const PriceRecordsTable = (props: IProps) => {
   const { priceRecords } = props;
   const columns = [
-    { title: "岛主", dataIndex: "name" },
+    { title: "菜农", dataIndex: "name" },
     { title: "好友代码", dataIndex: "swCode" },
-    { title: "萝卜报价", dataIndex: "price" },
+    { title: "菜价", dataIndex: "price" },
     { title: "记录时间", dataIndex: "reportedAtTimestamp" },
     { title: "有效时间", dataIndex: "remainingValidTime" },
   ];

@@ -37,11 +37,11 @@ export const AddRecordForm = (props: IProps) => {
     >
       <p>foo</p>
       <Form {...layout} form={form}>
-        <Form.Item {...tailLayout} label="岛主" name="name" rules={[{ required: true }]}>
+        <Form.Item {...tailLayout} label="叫啥" name="name" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
         <Form.Item {...tailLayout} label="好友代码" name="swCode" rules={[{ required: false }]}>
-          <Input />
+          <Input placeholder={"0123-4567-89AB"} />
         </Form.Item>
         <Form.Item
           {...tailLayout}

@@ -10,6 +10,10 @@ export default class MainPage extends PureComponent {
           <h2 style={{ color: "#fff" }}>炒萝卜啦！动物森友会</h2>
         </Layout.Header>
         <Layout.Content>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <img src={"gUlxvTr.png"} style={{ maxWidth: "100vw" }} />
+          </div>
+
           <PriceRecords />
         </Layout.Content>
       </React.Fragment>

@@ -1,13 +1,13 @@
 const fs = require('fs');
-const ENVIRONMENT = process.env.NODE_ENV || 'development' ;
+const ENVIRONMENT = process.env.NODE_ENV || 'development';
 const fileName = `.env.${ENVIRONMENT}`;
 
 console.log("foo")
 
 if (fs.existsSync(fileName)) {
-  require('dotenv').config({ path: fileName });
+  require('dotenv').config({path: fileName});
 } else {
-  require('dotenv').config({ path: ".env.example" });
+  require('dotenv').config({path: ".env.example"});
 }
 const database = {
   type: process.env.DATABASE_TYPE,
@@ -17,7 +17,7 @@ const database = {
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_DB,
   synchronize: process.env.DATABASE_SYNCHRONIZE,
-  logging: process.env.DATABASE_LOGGING,
+  logging: process.env.DATABASE_LOGGING
 };
 const config = {
   "type": database.type,
