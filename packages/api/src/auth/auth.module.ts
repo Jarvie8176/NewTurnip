@@ -1,12 +1,13 @@
 import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { TypeConfigModule } from "../config/typed-config-module";
+import { TypeConfigModule } from "../config/typed-config.module";
 import { TypedConfigService } from "../config/typed-config.service";
 import { UsersModule } from "../users/users.module";
 import { UsersService } from "../users/users.service";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
+import { JwtStrategy } from "./jwt-auth.strategy";
 import { LocalAuthStrategy } from "./local-auth.strategy";
 
 @Module({
@@ -26,8 +27,10 @@ import { LocalAuthStrategy } from "./local-auth.strategy";
       },
       inject: [TypedConfigService],
     }),
+    TypeConfigModule,
   ],
   controllers: [AuthController],
-  providers: [UsersService, AuthService, LocalAuthStrategy],
+  providers: [UsersService, AuthService, LocalAuthStrategy, JwtStrategy],
+  exports: [JwtStrategy],
 })
 export class AuthModule {}

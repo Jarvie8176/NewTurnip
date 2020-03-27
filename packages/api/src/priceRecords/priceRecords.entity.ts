@@ -11,16 +11,16 @@ export interface PriceRecordsDto {
 @Entity("priceRecords")
 export class PriceRecordsEntity implements PriceRecordsDto {
   @PrimaryGeneratedColumn("uuid")
-  id!: string;
+  id!: PriceRecordsDto["id"];
 
   @Column({ type: "text", nullable: false })
-  name!: string;
+  name!: PriceRecordsDto["name"];
 
   @Column({ type: "text", nullable: true })
-  swCode?: string;
+  swCode?: PriceRecordsDto["swCode"];
 
   @Column({ type: "numeric", nullable: false })
-  price!: number;
+  price!: PriceRecordsDto["price"];
 
   @Column({ type: "timestamp", nullable: false })
   reportedAt!: Date;

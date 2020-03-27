@@ -1,26 +1,31 @@
-import { User } from "@turnip-market/dtos";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import t = require("io-ts");
 
-interface UsersDto extends User.Type {
+export interface UsersDto {
   id: string;
   username: string;
   password: string;
   email: string;
 }
 
-export type ValidatedUser = Omit<UsersDto, "password">;
+export namespace ValidatedUser {
+  export const dto = t.interface({
+    id: t.string,
+  });
+  export type Type = t.TypeOf<typeof dto>;
+}
 
 @Entity("users")
 export class UsersEntity implements UsersDto {
   @PrimaryGeneratedColumn("uuid")
-  id!: string;
+  id!: UsersDto["id"];
 
   @Column({ type: "text", nullable: false })
-  username!: string;
+  username!: UsersDto["username"];
 
   @Column({ type: "text", nullable: false })
-  password!: string;
+  password!: UsersDto["password"];
 
   @Column({ type: "text", nullable: false })
-  email!: string;
+  email!: UsersDto["email"];
 }

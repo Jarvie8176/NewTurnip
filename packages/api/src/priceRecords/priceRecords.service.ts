@@ -20,7 +20,7 @@ export class PriceRecordsService {
     });
   }
 
-  async addRecord(input: AddPriceRecord.Type): Promise<PriceRecordsEntity> {
+  async addRecord(input: AddPriceRecord.Request.Type): Promise<PriceRecordsEntity> {
     const priceRecord = new PriceRecordsEntity();
     const { swCode, price, name, reportedAt } = input;
     priceRecord.swCode = !_.isNil(swCode) ? swCode : undefined;

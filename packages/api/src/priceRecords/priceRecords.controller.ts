@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
-import { AddPriceRecord, GetPriceRecordsDto } from "@turnip-market/dtos";
+import { AddPriceRecord, GetPriceRecords } from "@turnip-market/dtos";
 import { PriceRecordsService } from "./priceRecords.service";
 import _ = require("lodash");
 
@@ -8,7 +8,7 @@ export class PriceRecordsController {
   constructor(private readonly priceRecordsService: PriceRecordsService) {}
 
   @Get()
-  async getPriceRecords(): Promise<GetPriceRecordsDto.Type> {
+  async getPriceRecords(): Promise<GetPriceRecords.Response.Type> {
     const records = await this.priceRecordsService.getAllRecords();
     const priceRecords = _.map(records, (record) => ({
       ...record,
@@ -20,7 +20,7 @@ export class PriceRecordsController {
   }
 
   @Post()
-  async addPriceRecord(@Body() input: AddPriceRecord.Type): Promise<void> {
+  async addPriceRecord(@Body() input: AddPriceRecord.Request.Type): Promise<void> {
     await this.priceRecordsService.addRecord(input);
   }
 }
