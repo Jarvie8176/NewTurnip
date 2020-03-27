@@ -1,6 +1,6 @@
 import { Layout } from "antd";
 import React, { Fragment } from "react";
-import AuthComponent from "../Auth/controlBar.component";
+import AuthComponent from "../Auth/auth.component";
 import PriceRecordsComponent from "../PriceRecords/priceRecords.component";
 
 export const MainPageWrapper = () => {
