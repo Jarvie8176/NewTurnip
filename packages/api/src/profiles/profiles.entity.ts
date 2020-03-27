@@ -1,6 +1,7 @@
 import { ProfileSettings } from "@turnip-market/dtos";
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { UsersDto, UsersEntity } from "../users/users.entity";
+import { UsersEntity } from "../users/users.entity";
+import { UsersDto } from "../users/users.interface";
 
 export interface ProfilesDto {
   readonly id: string;

@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { RouterModule, Routes } from "nest-router";
+import { ApiModule } from "../api.module";
 import { AuthModule } from "../auth/auth.module";
 import { PriceRecordsModule } from "../priceRecords/priceRecords.module";
 import { ProfilesModule } from "../profiles/profiles.module";
@@ -8,6 +8,7 @@ import { ProfilesModule } from "../profiles/profiles.module";
 const routes: Routes = [
   {
     path: "/api",
+    module: ApiModule,
     children: [
       {
         path: "/auth",
@@ -26,6 +27,6 @@ const routes: Routes = [
 ];
 
 @Module({
-  imports: [ConfigModule, RouterModule.forRoutes(routes)],
+  imports: [RouterModule.forRoutes(routes)],
 })
 export class RoutesModule {}

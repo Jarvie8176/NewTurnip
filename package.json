@@ -7,7 +7,8 @@
     "packages/api"
   ],
   "scripts": {
-    "clear-dep": "lerna clean -y && echo 'remove node_modules'; rimraf node_modules",
+    "dep:update": "yarn workspace @turnip-market/dtos build && yarn install",
+    "dep:clear": "lerna clean -y && echo 'remove node_modules'; rimraf node_modules",
     "build": "lerna run build",
     "lint": "lerna run lint",
     "test": "lerna run test",

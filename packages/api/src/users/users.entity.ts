@@ -1,19 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import t = require("io-ts");
-
-export interface UsersDto {
-  id: string;
-  username: string;
-  password: string;
-  email: string;
-}
-
-export namespace ValidatedUser {
-  export const dto = t.interface({
-    id: t.string,
-  });
-  export type Type = t.TypeOf<typeof dto>;
-}
+import { UsersDto } from "./users.interface";
 
 @Entity("users")
 export class UsersEntity implements UsersDto {

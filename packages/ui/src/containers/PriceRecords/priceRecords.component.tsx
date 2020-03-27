@@ -1,28 +1,14 @@
 import { decodeDto } from "@ansik/sdk/lib/utils";
-import { AddPriceRecord, PriceRecord } from "@turnip-market/dtos";
-import { Button } from "antd";
+import { AddPriceRecord } from "@turnip-market/dtos";
 import _ from "lodash";
 import React, { PureComponent } from "react";
-import styled from "styled-components";
 import NotificationManager from "../Notification/notificationManager";
-import { AddRecordForm } from "./addRecordForm.ui";
+import { PriceRecordsState } from "./priceRecords.interface";
 import { PriceRecordsRepository } from "./priceRecords.repository";
+import { PriceRecordsWrapper } from "./priceRecords.ui";
 import { CreatePriceRecordDto } from "./priceRecordTable.dto";
-import { PriceRecordsTable } from "./recordsTable.ui";
 
-interface IState {
-  priceRecords: PriceRecord.Type[];
-  addRecordFormConfirmLoading: boolean;
-  addRecordFormVisible: boolean;
-}
-
-const PriceRecordsContainer = styled.div``;
-
-const Control = styled.div`
-  padding: 20px;
-`;
-
-export default class PriceRecords extends PureComponent<{}, IState> {
+export default class PriceRecordsComponent extends PureComponent<{}, PriceRecordsState> {
   priceRecordsRepository = PriceRecordsRepository;
 
   state = {
@@ -72,7 +58,7 @@ export default class PriceRecords extends PureComponent<{}, IState> {
         reportedAt: _.get(input, "reportedAt")?.toISOString(),
       };
       console.log(payload);
-      const record = decodeDto(AddPriceRecord.dto, payload);
+      const record = decodeDto(AddPriceRecord.Request.dto, payload);
       await this.createRecord(record);
       confirm();
     } finally {
@@ -89,23 +75,13 @@ export default class PriceRecords extends PureComponent<{}, IState> {
   };
 
   render() {
-    const { priceRecords, addRecordFormConfirmLoading, addRecordFormVisible } = this.state;
-
     return (
-      <PriceRecordsContainer>
-        <Control>
-          <Button type={"primary"} size={"large"} shape={"round"} onClick={this.toggleAddRecordForm}>
-            炒!
-          </Button>
-        </Control>
-        <PriceRecordsTable priceRecords={priceRecords} />
-        <AddRecordForm
-          visible={addRecordFormVisible}
-          confirmLoading={addRecordFormConfirmLoading}
-          onCancel={this.onAddRecordFormCancel}
-          onCreate={this.onAddRecordFormCreate}
-        />
-      </PriceRecordsContainer>
+      <PriceRecordsWrapper
+        {...this.state}
+        onAddRecordsButtonClick={this.toggleAddRecordForm}
+        onAddRecordFormCancel={this.onAddRecordFormCancel}
+        onAddRecordFormCreate={this.onAddRecordFormCreate}
+      />
     );
   }
 }

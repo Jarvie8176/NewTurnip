@@ -1,6 +1,6 @@
 import { decodeDto } from "@ansik/sdk/lib/utils";
 import { createParamDecorator, ExecutionContext, InternalServerErrorException } from "@nestjs/common";
-import { ValidatedUser } from "../users/users.entity";
+import { ValidatedUser } from "../users/users.interface";
 import _ = require("lodash");
 
 export const User = createParamDecorator(

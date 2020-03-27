@@ -18,3 +18,19 @@ export namespace Login {
     export type Type = TypeOf<typeof dto>;
   }
 }
+
+export namespace CreateUser {
+  export namespace Request {
+    export const dto = t.intersection([
+      Login.Request.dto,
+      t.interface({
+        email: string,
+      }),
+    ]);
+    export type Type = TypeOf<typeof dto>;
+  }
+  export namespace Response {
+    export const dto = Login.Response.dto;
+    export type Type = Login.Response.Type;
+  }
+}

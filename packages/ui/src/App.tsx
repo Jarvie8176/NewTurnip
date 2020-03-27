@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.less";
-import MainPage from "./containers/MainPage";
+import MainPageComponent from "./containers/MainPage/mainPage.component";
 
 function App() {
   return (
     <div className="App">
-      <MainPage />
+      <MainPageComponent />
     </div>
   );
 }

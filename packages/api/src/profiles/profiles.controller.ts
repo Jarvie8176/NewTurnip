@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { GetProfile } from "@turnip-market/dtos";
 import { User } from "../auth/auth.decorator";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
-import { ValidatedUser } from "../users/users.entity";
+import { ValidatedUser } from "../users/users.interface";
 import { ProfilesService } from "./profiles.service";
 
 @Controller()

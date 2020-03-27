@@ -7,7 +7,7 @@ export namespace ConfigDefinition {
     JWT_SECRET: string,
     JWT_EXPIRESIN: string,
     PORT: NumberFromString,
-    API_DESCRIPTION: string
+    API_DESCRIPTION: string,
   });
   export type Type = TypeOf<typeof dto>;
 }

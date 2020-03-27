@@ -31,7 +31,6 @@ export class PriceRecordsService {
     priceRecord.reportedAt = reportedAtTimestamp.toDate();
 
     await this.priceRecordsRepository.save(priceRecord);
-    console.log(priceRecord);
     return priceRecord;
   }
 }

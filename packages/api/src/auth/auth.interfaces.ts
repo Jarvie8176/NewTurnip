@@ -1,6 +1,6 @@
 import t = require("io-ts");
 import { Request } from "express";
-import { ValidatedUser } from "../users/users.entity";
+import { ValidatedUser } from "../users/users.interface";
 
 export interface AuthResult {
   accessToken: string;

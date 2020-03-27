@@ -1,10 +1,11 @@
 import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { TypeConfigModule } from "../config/typed-config.module";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { TypedConfigModule } from "../config/typed-config.module";
 import { TypedConfigService } from "../config/typed-config.service";
+import { UsersEntity } from "../users/users.entity";
 import { UsersModule } from "../users/users.module";
-import { UsersService } from "../users/users.service";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { JwtStrategy } from "./jwt-auth.strategy";
@@ -12,10 +13,12 @@ import { LocalAuthStrategy } from "./local-auth.strategy";
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([UsersEntity]),
     UsersModule,
     PassportModule,
+    TypedConfigModule,
     JwtModule.registerAsync({
-      imports: [TypeConfigModule],
+      imports: [TypedConfigModule],
       useFactory: async (typeConfigService: TypedConfigService) => {
         const { config } = typeConfigService;
         return {
@@ -27,10 +30,9 @@ import { LocalAuthStrategy } from "./local-auth.strategy";
       },
       inject: [TypedConfigService],
     }),
-    TypeConfigModule,
   ],
   controllers: [AuthController],
-  providers: [UsersService, AuthService, LocalAuthStrategy, JwtStrategy],
-  exports: [JwtStrategy],
+  providers: [AuthService, LocalAuthStrategy, JwtStrategy],
+  exports: [AuthService],
 })
 export class AuthModule {}
