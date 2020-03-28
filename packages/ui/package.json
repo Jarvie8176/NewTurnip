@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "lint": "eslint . --ext .ts,.tsx",
     "build": "react-app-rewired build",
     "eject": "react-app-rewired eject",
+    "schema:sync": "yarn workspace @turnip-market/api typeorm schema:sync",
     "start": "react-app-rewired start",
     "start:prod": "serve -s build",
     "test": "react-app-rewired test --watchAll=false",
-    "test:watch": "react-app-rewired test",
-    "schema:sync": "yarn workspace @turnip-market/api typeorm schema:sync",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\""
+    "test:watch": "react-app-rewired test"
   },
   "browserslist": {
     "production": [
@@ -32,6 +32,7 @@
     "@ant-design/icons": "^4.0.3",
     "@babel/plugin-transform-typescript": "^7.9.4",
     "@turnip-market/dtos": "^1.0.0",
+    "@types/react-helmet": "^5.0.15",
     "antd": "^4.0.4",
     "api": "^0.0.1",
     "axios": "^0.19.2",
@@ -46,6 +47,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-helmet": "^5.2.1",
     "react-is": "^16.13.1",
     "react-moment": "^0.9.7",
     "react-scripts": "3.4.1",
@@ -53,6 +55,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-decorators": "^7.8.3",
     "@babel/preset-env": "^7.9.0",
     "@testing-library/jest-dom": "^5.2.0",
     "@testing-library/react": "latest",
@@ -67,11 +71,13 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "css-loader": "^3.4.2",
     "customize-cra": "^0.9.1",
+    "eslint-plugin-react-hooks": "^3.0.0",
     "jest": "^24.9.0",
     "less-loader": "^5.0.0",
     "prop-types": "^15.7.2",
     "react-app-rewired": "^2.1.5",
     "style-loader": "^1.1.3",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "utility-types": "^3.10.0"
   }
 }

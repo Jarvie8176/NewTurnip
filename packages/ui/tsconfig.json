@@ -1,12 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "experimentalDecorators": true,
     "target": "es6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -17,9 +14,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "allowJs": true
+    "allowJs": false
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

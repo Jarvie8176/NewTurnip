@@ -1,17 +1,12 @@
 import { Body, Controller, Post, UseGuards } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { CreateUser } from "@turnip-market/dtos";
+import { CreateUser, Login } from "@turnip-market/dtos";
 import { ValidatedUser } from "../users/users.interface";
 import { UsersService } from "../users/users.service";
 import { User } from "./auth.decorator";
 import { AuthResult } from "./auth.interfaces";
 import { AuthService } from "./auth.service";
 import { LocalAuthGuard } from "./local-auth.guard";
-
-interface LoginBody {
-  username: string;
-  password: string;
-}
 
 @Controller()
 @ApiTags("auth")
@@ -20,8 +15,7 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post("login")
-  async login(@User() user: ValidatedUser.Type, @Body() _body: LoginBody): Promise<AuthResult> {
-    console.log(user);
+  async login(@User() user: ValidatedUser.Type): Promise<Login.Response.Type> {
     return this.authService.grantAccess(user);
   }
 

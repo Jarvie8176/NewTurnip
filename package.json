@@ -1,32 +1,8 @@
 {
-  "name": "root",
-  "private": true,
-  "workspaces": [
-    "packages/dtos",
-    "packages/ui",
-    "packages/api"
-  ],
-  "scripts": {
-    "dep:update": "yarn workspace @turnip-market/dtos build && yarn install",
-    "dep:clear": "lerna clean -y && echo 'remove node_modules'; rimraf node_modules",
-    "build": "lerna run build",
-    "lint": "lerna run lint",
-    "test": "lerna run test",
-    "test:coverage": "lerna run test -- --coverage",
-    "build:declarations": "lerna run --parallel 'build:declaration'",
-    "sort-package": "sort-package-json 'package.json', 'packages/*/package.json'",
-    "start:api:dev": "yarn workspace @turnip-market/api start:dev",
-    "start:ui:dev": "yarn workspace @turnip-market/ui start",
-    "start:ui:prod": "yarn workspace @turnip-market/ui build && yarn workspace @turnip-market/ui start:prod"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint"
-    }
-  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
+    "coveralls": "^3.0.11",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-config-standard": "^14.1.1",
@@ -36,11 +12,39 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react-hooks": "^3.0.0",
     "eslint-plugin-standard": "^4.0.1",
     "lerna": "^3.20.2",
     "prettier": "^2.0.1",
     "rimraf": "^3.0.2",
     "sort-package-json": "^1.40.0",
     "typescript": "^3.8.3"
-  }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint"
+    }
+  },
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "build": "lerna run build",
+    "build:declarations": "lerna run --parallel 'build:declaration'",
+    "dep:clear": "lerna clean -y && echo 'remove node_modules'; rimraf node_modules",
+    "dep:update": "yarn workspace @turnip-market/dtos build && yarn install",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "yarn lint --fix",
+    "sort-package": "sort-package-json 'package.json', 'packages/*/package.json'",
+    "start:api:dev": "yarn workspace @turnip-market/api start:dev",
+    "start:ui:dev": "yarn workspace @turnip-market/ui start",
+    "start:ui:prod": "yarn workspace @turnip-market/ui build && yarn workspace @turnip-market/ui start:prod",
+    "test": "lerna run test",
+    "test:coverage": "lerna run test -- --coverage",
+    "test:coveralls": "lerna run test -- --coverage --coverageReporters=text-lcov | node_modules/.bin/coveralls"
+  },
+  "workspaces": [
+    "packages/dtos",
+    "packages/ui",
+    "packages/api"
+  ]
 }

@@ -12,8 +12,7 @@ export namespace Login {
 
   export namespace Response {
     export const dto = t.interface({
-      id: string, // uuid
-      username: string,
+      accessToken: string,
     });
     export type Type = TypeOf<typeof dto>;
   }

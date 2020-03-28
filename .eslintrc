@@ -1,38 +1,43 @@
 {
+  "env": {
+    "es6": true,
+    "jest": true,
+    "jest/globals": true,
+    "node": true
+  },
   "extends": [
     "eslint:recommended",
-    "prettier/@typescript-eslint",
-    "plugin:jest/recommended",
-    "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
+    "plugin:jest/recommended",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "project": "./tsconfig.json",
     "sourceType": "module"
   },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  },
-  "env": {
-    "node": true,
-    "es6": true,
-    "jest": true,
-    "jest/globals": true
-  },
   "rules": {
-    "indent": "off",
+    //    "@typescript-eslint/explicit-function-return-type": ["warn", { "allowTypedFunctionExpressions": true }],
     "@typescript-eslint/indent": ["warn", 2],
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-namespace": "off",
-    "space-before-function-paren": "off",
-    "prettier/prettier": "error",
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "indent": "off",
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",
     "jest/prefer-to-have-length": "warn",
-    "jest/valid-expect": "error"
+    "jest/valid-expect": "error",
+    "no-console": "warn",
+    "prettier/prettier": "error",
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "never",
+        "asyncArrow": "always",
+        "named": "never"
+      }
+    ]
   }
 }

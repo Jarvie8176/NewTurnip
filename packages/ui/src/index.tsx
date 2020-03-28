@@ -1,12 +1,19 @@
+import { configure } from "mobx";
+import { Provider } from "mobx-react";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import { RootStore } from "./shared/rootStore";
+
+configure({ enforceActions: "always" });
 
 ReactDOM.render(
-  <React.StrictMode>
+  //  <React.StrictMode>
+  <Provider {...RootStore}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
+  //  </React.StrictMode>,
   document.getElementById("root")
 );
 

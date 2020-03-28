@@ -1,15 +1,15 @@
 import { Table } from "antd";
 import _ from "lodash";
+import { observer } from "mobx-react";
 import moment, { Moment } from "moment";
 import React from "react";
-import { PriceRecordTableDto } from "./priceRecordTable.dto";
+import { useRootStore } from "../../shared/rootStore";
+import { PriceRecordsState } from "./priceRecords.interface";
 
-interface IProps {
-  priceRecords: PriceRecordTableDto["priceRecords"];
-}
+export const PriceRecordsTable = observer((_props: PriceRecordsState) => {
+  const { priceRecordsStore } = useRootStore();
+  const priceRecords = priceRecordsStore.priceRecords;
 
-export const PriceRecordsTable = (props: IProps) => {
-  const { priceRecords } = props;
   const columns = [
     { title: "菜农", dataIndex: "name" },
     { title: "好友代码", dataIndex: "swCode" },
@@ -28,8 +28,8 @@ export const PriceRecordsTable = (props: IProps) => {
     };
   });
 
-  return <Table dataSource={parsedData} columns={columns} rowKey={"id"} />;
-};
+  return <Table loading={priceRecordsStore.dataLoading} dataSource={parsedData} columns={columns} rowKey={"id"} />;
+});
 
 function getValidUntilTimestamp(input: Moment): Moment | undefined {
   const nextMidDay = moment(input).startOf("day").add(12, "hours");
