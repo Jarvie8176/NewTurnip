@@ -4,12 +4,13 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
+    "clean": "rimraf dist build coverage",
+    "prebuild": "yarn clean",
     "build": "tsc",
     "build:watch": "tsc --watch",
     "lint": "eslint . --ext .ts"
   },
   "dependencies": {
-    "api": "^0.0.1",
     "io-ts": "^1.10.4"
   },
   "devDependencies": {

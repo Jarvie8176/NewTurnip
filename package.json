@@ -28,6 +28,7 @@
   "name": "root",
   "private": true,
   "scripts": {
+    "clean": "lerna run clean",
     "build": "lerna run build",
     "build:declarations": "lerna run --parallel 'build:declaration'",
     "dep:clear": "lerna clean -y && echo 'remove node_modules'; rimraf node_modules",

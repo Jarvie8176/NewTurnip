@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "clean": "rimraf dist build coverage",
     "lint": "eslint . --ext .ts,.tsx",
     "build": "react-app-rewired build",
     "eject": "react-app-rewired eject",

@@ -1,12 +1,14 @@
 require("./init");
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import * as helmet from "helmet";
 import { AppModule } from "./app.module";
 import { TypedConfigService } from "./config/typed-config.service";
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
+  app.use(helmet());
 
   const { PORT, API_DESCRIPTION } = app.get<TypedConfigService>(TypedConfigService).config;
 
