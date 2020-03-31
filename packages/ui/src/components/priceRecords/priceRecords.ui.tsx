@@ -8,9 +8,8 @@ import { PriceRecordsTable } from "./priceRecordsTable.ui";
 
 const Buttons = styled.div`
   display: flex;
-  padding: 1em;
 
-  > button + button {
+  Button {
     margin-left: 1em;
   }
 `;

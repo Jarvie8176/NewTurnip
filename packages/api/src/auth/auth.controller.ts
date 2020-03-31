@@ -1,11 +1,11 @@
 import { Body, Controller, Post, UseGuards } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { CreateUser, Login } from "@turnip-market/dtos";
+import { CreateUser } from "@turnip-market/dtos";
 import { ValidatedUser } from "../users/users.interface";
 import { UsersService } from "../users/users.service";
 import { User } from "./auth.decorator";
-import { AuthResult } from "./auth.interfaces";
 import { AuthService } from "./auth.service";
+import { LoginDto } from "./dtos/login.dto";
 import { LocalAuthGuard } from "./local-auth.guard";
 
 @Controller()
@@ -15,13 +15,17 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post("login")
-  async login(@User() user: ValidatedUser.Type): Promise<Login.Response.Type> {
-    return this.authService.grantAccess(user);
+  async login(@User() user: ValidatedUser.Type): Promise<LoginDto> {
+    return {
+      data: await this.authService.grantAccess(user),
+    };
   }
 
   @Post("register")
-  async signUp(@Body() input: CreateUser.Request.Type): Promise<AuthResult> {
+  async signUp(@Body() input: CreateUser.Request.Type): Promise<LoginDto> {
     const user = await this.usersService.create(input);
-    return await this.authService.grantAccess(user);
+    return {
+      data: await this.authService.grantAccess(user),
+    };
   }
 }

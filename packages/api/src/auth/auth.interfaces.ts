@@ -2,10 +2,6 @@ import t = require("io-ts");
 import { Request } from "express";
 import { ValidatedUser } from "../users/users.interface";
 
-export interface AuthResult {
-  accessToken: string;
-}
-
 export interface ValidatedReq extends Request {
   user: ValidatedUser.Type;
 }
