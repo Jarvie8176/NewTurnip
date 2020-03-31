@@ -1,13 +1,13 @@
 version: "3"
 services:
-#  api:
-#    image: turnip-market:latest
-#    container_name: turnip-market-api
-#    ports:
-#      - "4000:4000"
-#    environment:
-#      NODE_ENV: "production"
-#    command: /bin/bash -c "cd packages/api; node dist/main.js"
+  api:
+    image: turnip-market:latest
+    container_name: turnip-market-api
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: "production"
+    command: /bin/bash -c "cd packages/api; node dist/main.js"
   ui:
     image: turnip-market:latest
     container_name: turnip-market-ui
