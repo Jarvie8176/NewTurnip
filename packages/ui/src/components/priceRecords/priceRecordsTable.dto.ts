@@ -1,5 +1,5 @@
-import { AddPriceRecord, GetPriceRecords } from "@turnip-market/dtos";
+import { AddPriceRecords, GetPriceRecords } from "@turnip-market/dtos";
 
-export interface PriceRecordsTableDto extends GetPriceRecords.Response.Type {}
+export type PriceRecordsTableDto = GetPriceRecords.Response.Type["data"];
 
-export interface CreatePriceRecordDto extends AddPriceRecord.Request.Type {}
+export type CreatePriceRecordDto = AddPriceRecords.Request.Type;

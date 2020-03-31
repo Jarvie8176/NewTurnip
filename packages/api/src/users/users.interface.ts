@@ -6,10 +6,3 @@ export namespace ValidatedUser {
   });
   export type Type = t.TypeOf<typeof dto>;
 }
-
-export interface UsersDto {
-  id: string;
-  username: string;
-  password: string;
-  email: string;
-}

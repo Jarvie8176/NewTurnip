@@ -12,7 +12,9 @@ export namespace Login {
 
   export namespace Response {
     export const dto = t.interface({
-      accessToken: string,
+      data: t.interface({
+        accessToken: string,
+      }),
     });
     export type Type = TypeOf<typeof dto>;
   }
@@ -30,6 +32,6 @@ export namespace CreateUser {
   }
   export namespace Response {
     export const dto = Login.Response.dto;
-    export type Type = Login.Response.Type;
+    export type Type = TypeOf<typeof dto>;
   }
 }

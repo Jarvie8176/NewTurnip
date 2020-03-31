@@ -5,7 +5,7 @@ import { PriceRecordsEntity } from "./priceRecords.entity";
 import { PriceRecordsService } from "./priceRecords.service";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PriceRecordsEntity])],
+  imports: [TypeOrmModule.forFeature([PriceRecordsEntity, PriceRecordsEntity])],
   controllers: [PriceRecordsController],
   providers: [PriceRecordsService],
 })

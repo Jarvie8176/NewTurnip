@@ -1,5 +1,5 @@
 import { decodeDto } from "@ansik/sdk/lib/utils";
-import { AddPriceRecord } from "@turnip-market/dtos";
+import { AddPriceRecords } from "@turnip-market/dtos";
 import _ from "lodash";
 import { observer } from "mobx-react";
 import React, { PureComponent } from "react";
@@ -44,13 +44,15 @@ export default class PriceRecordsComponent extends PureComponent<{}, PriceRecord
   };
 
   onAddRecordFormCreate: TOnFormCreate = async (input, confirm) => {
-    const payload = {
-      name: _.get(input, "name"),
+    console.log(input);
+    const payload: AddPriceRecords.Request.Type = {
+      playerName: _.get(input, "playerName"),
+      islandName: _.get(input, "islandName"),
+      price: _.get(input, "price") && String(_.get(input, "price")),
       swCode: _.get(input, "swCode") || null,
-      price: _.get(input, "price"),
       reportedAt: _.get(input, "reportedAt")?.toISOString(),
     };
-    const record = decodeDto(AddPriceRecord.Request.dto, payload);
+    const record = decodeDto(AddPriceRecords.Request.dto, payload);
     await this.createRecord(record);
     confirm();
   };

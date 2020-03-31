@@ -7,29 +7,13 @@ import { AuthButton } from "./authButton.ui";
 import { LoginForm } from "./loginForm.ui";
 import { RegisterForm } from "./registerForm.ui";
 
-const Authenticated = styled.div`
-  display: flex;
-  padding: 1em;
-
-  > button + button {
-    margin-left: 1em;
-  }
-`;
-const NotAuthenticated = styled.div`
-  display: flex;
-  padding: 1em;
-
-  > button + button {
-    margin-left: 1em;
-  }
-`;
+const Authenticated = styled.div``;
+const NotAuthenticated = styled.div``;
 
 export const AuthControlWrapper = observer((props: AuthControlProps) => {
   const { onLoginButtonClick, onRegisterButtonClick, onLogoutButtonClick, loginForm, registerForm } = props;
   const { authStore } = useRootStore();
   const { authenticated } = authStore;
-
-  console.log("authenticated", authenticated);
 
   const displayWhenAuthenticated = (isAuthenticated: boolean) =>
     isAuthenticated === authenticated ? undefined : "none";

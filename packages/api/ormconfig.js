@@ -24,18 +24,18 @@ const config = {
   logging: process.env.TYPEORM_LOGGING,
   entities: process.env.ENTITIES,
   seeds: ["dist/seeds/**/*.seed.js"],
-  migrations: ["dist/migration/**/*.js"],
+  migrations: ["dist/migrations/**/*.js"],
   subscribers: ["dist/subscriber/**/*.js"],
   cli: {
     entitiesDir: process.env.ENTITIES_DIR,
-    migrationsDir: process.env.MIGRATIONS_DIR,
+    migrationsDir: "src/migrations",
     subscribersDir: "src/subscriber",
   },
 };
 
 if (process.env.NODE_ENV === "production") {
   config["extra"] = {
-    ssl: true,
+    ssl: false,
   };
 }
 module.exports = config;

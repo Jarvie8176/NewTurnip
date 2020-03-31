@@ -20,7 +20,7 @@ export class PriceRecordsStore {
       runInAction(() => (this.dataLoading = true));
       const { data } = await DataProvider.get("priceRecords/");
       const response = decodeDto(GetPriceRecords.Response.dto, data);
-      runInAction(() => (this.priceRecordsData = response));
+      runInAction(() => (this.priceRecordsData = response.data));
       console.log(`# of price records loaded: ${this.priceRecordsData?.priceRecords.length}`);
     } finally {
       runInAction(() => (this.dataLoading = false));
@@ -28,14 +28,11 @@ export class PriceRecordsStore {
   }
 
   @action async addRecord(dto: CreatePriceRecordDto): Promise<void> {
-    // todo
     try {
       runInAction(() => (this.createRecordLoading = true));
-      console.log(this.createRecordLoading);
       await DataProvider.post("priceRecords/", dto);
     } finally {
       runInAction(() => (this.createRecordLoading = false));
-      console.log(this.createRecordLoading);
     }
   }
 }
