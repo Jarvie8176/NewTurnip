@@ -1,5 +1,6 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
+    <option name="LINE_SEPARATOR" value="&#10;" />
     <ECMA4CodeStyleSettings version="0">
       <option name="ENFORCE_TRAILING_COMMA" value="Remove" />
     </ECMA4CodeStyleSettings>
