@@ -21,7 +21,7 @@ export class AuthStore {
       runInAction(() => (this.loading = true));
       const { data } = await DataProvider.post("/auth/register", input);
       const response = decodeDto(CreateUser.Response.dto, data);
-      await runInAction(() => this.storeAuthToken(response));
+      await runInAction(() => this.storeAuthToken(response.data));
     } finally {
       runInAction(() => (this.loading = false));
     }
@@ -33,7 +33,7 @@ export class AuthStore {
       console.log("sending login request");
       const { data } = await DataProvider.post("/auth/login", input);
       const response = decodeDto(Login.Response.dto, data);
-      await runInAction(() => this.storeAuthToken(response));
+      await runInAction(() => this.storeAuthToken(response.data));
       console.log("login successful");
     } finally {
       runInAction(() => (this.loading = false));

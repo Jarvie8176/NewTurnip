@@ -1,27 +1,31 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-
-export interface PriceRecordsDto {
-  readonly id: string;
-  readonly name: string;
-  readonly swCode?: string;
-  readonly price: number;
-  readonly reportedAt: Date;
-}
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { UsersEntity } from "../users/users.entity";
 
 @Entity("priceRecords")
-export class PriceRecordsEntity implements PriceRecordsDto {
+export class PriceRecordsEntity {
   @PrimaryGeneratedColumn("uuid")
-  id!: PriceRecordsDto["id"];
+  id!: string;
 
   @Column({ type: "text", nullable: false })
-  name!: PriceRecordsDto["name"];
+  playerName!: string;
+
+  @Column({ type: "text", nullable: false })
+  islandName!: string;
 
   @Column({ type: "text", nullable: true })
-  swCode?: PriceRecordsDto["swCode"];
+  swCode?: string;
 
   @Column({ type: "numeric", nullable: false })
-  price!: PriceRecordsDto["price"];
+  price!: string;
 
   @Column({ type: "timestamp", nullable: false })
   reportedAt!: Date;
+
+  @ManyToOne(() => UsersEntity, (user) => user.id, {
+    nullable: true,
+    onUpdate: "CASCADE",
+    onDelete: "SET NULL",
+  })
+  @JoinColumn()
+  reportedBy?: UsersEntity;
 }

@@ -1,30 +1,44 @@
 import * as t from "io-ts";
-import { array, nullType, number, string, TypeOf } from "io-ts";
+import { array, nullType, string, TypeOf } from "io-ts";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+
+const getPriceRecordDto = t.interface({
+  id: string, // uuid
+  playerName: t.union([string, nullType]),
+  islandName: t.union([string, nullType]),
+  swCode: t.union([string, nullType]),
+  price: string,
+  reportedAt: DateFromISOString,
+  timeOffsetInMinutes: t.union([string, nullType]),
+});
 
 export namespace GetPriceRecords {
   export namespace Response {
     export const dto = t.interface({
-      priceRecords: array(
-        t.interface({
-          id: string, // uuid
-          name: string,
-          swCode: t.union([string, nullType]),
-          price: number,
-          reportedAt: string,
-        })
-      ),
+      data: t.interface({
+        priceRecords: array(getPriceRecordDto),
+      }),
     });
     export type Type = TypeOf<typeof dto>;
   }
 }
 
-export namespace AddPriceRecord {
+export namespace AddPriceRecords {
   export namespace Request {
     export const dto = t.interface({
-      name: string,
+      playerName: string,
+      islandName: string,
       swCode: t.union([string, nullType]),
-      price: number,
+      price: string,
       reportedAt: string,
+    });
+    export type Type = TypeOf<typeof dto>;
+  }
+  export namespace Response {
+    export const dto = t.interface({
+      data: t.interface({
+        priceRecord: getPriceRecordDto,
+      }),
     });
     export type Type = TypeOf<typeof dto>;
   }

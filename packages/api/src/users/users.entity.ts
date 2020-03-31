@@ -1,17 +1,25 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { UsersDto } from "./users.interface";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { PriceRecordsEntity } from "../priceRecords/priceRecords.entity";
+import { ProfilesEntity } from "../profiles/profiles.entity";
 
 @Entity("users")
-export class UsersEntity implements UsersDto {
+export class UsersEntity {
   @PrimaryGeneratedColumn("uuid")
-  id!: UsersDto["id"];
+  id!: string;
 
   @Column({ type: "text", nullable: false })
-  username!: UsersDto["username"];
+  username!: string;
 
   @Column({ type: "text", nullable: false })
-  password!: UsersDto["password"];
+  password!: string;
 
   @Column({ type: "text", nullable: false })
-  email!: UsersDto["email"];
+  email!: string;
+
+  @OneToMany(() => PriceRecordsEntity, (priceRecord) => priceRecord.reportedBy)
+  priceRecords?: PriceRecordsEntity[];
+
+  @OneToOne(() => ProfilesEntity, (profile) => profile.user)
+  @JoinColumn()
+  profile?: ProfilesEntity;
 }
