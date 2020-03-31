@@ -23,7 +23,7 @@ export function nextValidTime(currentTime: Moment, timeDiffInMinutes: number): M
   const localMinutesSinceDayStart = localHours * 60 + localMinutes;
 
   const nextMorningEndsInMinutes = 12 * 60 - localMinutesSinceDayStart;
-  const nextEveningEndsInMinutes = 20 * 60 - localMinutesSinceDayStart;
+  const nextEveningEndsInMinutes = 22 * 60 - localMinutesSinceDayStart;
   const nextEndsInMinutes = _.find([nextMorningEndsInMinutes, nextEveningEndsInMinutes], (i) => i > 0) || NaN;
 
   return currentTime.clone().add(nextEndsInMinutes, "minutes");
