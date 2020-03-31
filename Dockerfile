@@ -1,6 +1,7 @@
 FROM node:12.16.1-alpine AS BUILD
 
 WORKDIR /var/app
+RUN npm i -g serve
 COPY ./.yarnclean ./.yarnclean
 COPY ./yarn.lock ./yarn.lock
 COPY ./lerna.json ./lerna.json
