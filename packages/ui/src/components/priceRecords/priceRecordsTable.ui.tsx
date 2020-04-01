@@ -34,7 +34,5 @@ export const PriceRecordsTable = observer((_props: PriceRecordsState) => {
     };
   });
 
-  console.log(parsedData);
-
   return <Table loading={priceRecordsStore.dataLoading} dataSource={parsedData} columns={columns} rowKey={"id"} />;
 });

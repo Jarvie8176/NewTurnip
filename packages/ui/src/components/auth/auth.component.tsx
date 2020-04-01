@@ -3,7 +3,7 @@ import { CreateUser, Login } from "@turnip-market/dtos";
 import _ from "lodash";
 import React, { PureComponent } from "react";
 import { rootStoreContext } from "../../shared/rootStore";
-import { ModalFormInnerProps, TOnFormCreate } from "../common/modalForm.interface";
+import { ModalFormUIProps, TOnFormCreate } from "../common/modalForm.interface";
 import NotificationManager from "../notification/notificationManager";
 import { AuthComponentState } from "./auth.interfaces";
 import { AuthControlWrapper } from "./authControl.ui";
@@ -71,13 +71,13 @@ export default class AuthComponent extends PureComponent<{}, AuthComponentState>
   };
 
   render() {
-    const loginFormProps: ModalFormInnerProps = {
-      ...this.state.loginForm,
+    const loginFormProps: ModalFormUIProps = {
+      visible: this.state.loginForm.visible,
       onCreate: this.onLoginFormCreate,
       onCancel: () => this.toggleLoginForm(false),
     };
-    const registerFormProps: ModalFormInnerProps = {
-      ...this.state.registerForm,
+    const registerFormProps: ModalFormUIProps = {
+      visible: this.state.registerForm.visible,
       onCreate: this.onRegisterFormCreate,
       onCancel: () => this.toggleRegisterForm(false),
     };

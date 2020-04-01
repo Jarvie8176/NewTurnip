@@ -4,7 +4,7 @@ import _ from "lodash";
 import { observer } from "mobx-react";
 import React, { PureComponent } from "react";
 import { rootStoreContext } from "../../shared/rootStore";
-import { ModalFormInnerProps, TOnFormCreate } from "../common/modalForm.interface";
+import { ModalFormUIProps, TOnFormCreate } from "../common/modalForm.interface";
 import NotificationManager from "../notification/notificationManager";
 import { PriceRecordsComponentState } from "./priceRecords.interface";
 import { PriceRecordsWrapper } from "./priceRecords.ui";
@@ -54,6 +54,7 @@ export default class PriceRecordsComponent extends PureComponent<{}, PriceRecord
     };
     const record = decodeDto(AddPriceRecords.Request.dto, payload);
     await this.createRecord(record);
+    this.toggleAddRecordForm(false);
     confirm();
   };
 
@@ -66,7 +67,7 @@ export default class PriceRecordsComponent extends PureComponent<{}, PriceRecord
   };
 
   render() {
-    const addRecordFormProps: ModalFormInnerProps = {
+    const addRecordFormProps: ModalFormUIProps = {
       visible: this.state.addRecordFormVisible,
       onCreate: this.onAddRecordFormCreate,
       onCancel: this.onAddRecordFormCancel,

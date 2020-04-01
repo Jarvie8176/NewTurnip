@@ -6,7 +6,7 @@ import moment from "moment-timezone";
 import React, { PureComponent } from "react";
 import { rootStoreContext } from "../../shared/rootStore";
 import { computeTimeDiffInMinutes } from "../../shared/timeOffset.util";
-import { ModalFormInnerProps, TOnFormCreate } from "../common/modalForm.interface";
+import { ModalFormUIProps, TOnFormCreate } from "../common/modalForm.interface";
 import { ProfileWrapper } from "./profile.ui";
 
 interface IState {
@@ -43,8 +43,6 @@ export default class ProfileComponent extends PureComponent<{}, IState> {
     const isValidTimeDiff = _.isNumber(timeDiff) && !_.isNaN(timeDiff);
     const localTimeOffsetMinutes = isValidTimeDiff ? String(timeDiff) : null;
 
-    console.log(input);
-
     const payload: ReplaceCurrentUserProfile.Request.Type = {
       settings: {
         playerName: _.get(input, "playerName", null),
@@ -56,6 +54,7 @@ export default class ProfileComponent extends PureComponent<{}, IState> {
     };
 
     await this.context.profileStore.updateProfileSettings(decodeDto(ReplaceCurrentUserProfile.Request.dto, payload));
+    this.toggleProfileForm(false);
     confirm();
   };
 
@@ -64,7 +63,7 @@ export default class ProfileComponent extends PureComponent<{}, IState> {
   };
 
   render() {
-    const profileFormProps: ModalFormInnerProps = {
+    const profileFormProps: ModalFormUIProps = {
       visible: this.state.profileFormVisible,
       onCreate: this.onProfileFormCreate,
       onCancel: this.onProfileFormCancel,

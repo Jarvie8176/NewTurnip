@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { useRootStore } from "../../shared/rootStore";
 import { AuthControlProps } from "./auth.interfaces";
 import { AuthButton } from "./authButton.ui";
-import { LoginForm } from "./loginForm.ui";
-import { RegisterForm } from "./registerForm.ui";
+import { LoginModalForm } from "./loginForm.ui";
+import { RegisterModalForm } from "./registerForm.ui";
 
 const Authenticated = styled.div``;
 const NotAuthenticated = styled.div``;
@@ -27,8 +27,8 @@ export const AuthControlWrapper = observer((props: AuthControlProps) => {
       <Authenticated style={{ display: displayWhenAuthenticated(true) }}>
         <AuthButton text={"登出"} onClick={onLogoutButtonClick} />
       </Authenticated>
-      <LoginForm {...loginForm} />
-      <RegisterForm {...registerForm} />
+      <LoginModalForm {...loginForm} />
+      <RegisterModalForm {...registerForm} />
     </Fragment>
   );
 });

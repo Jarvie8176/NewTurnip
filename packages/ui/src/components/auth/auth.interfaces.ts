@@ -1,5 +1,5 @@
 import { AuthTokenType } from "../common/auth.dto";
-import { ModalFormInnerProps, ModalFormState } from "../common/modalForm.interface";
+import { ModalFormState, ModalFormUIProps } from "../common/modalForm.interface";
 
 // fixme: load directly from AuthToken.Type
 export interface AuthToken extends AuthTokenType {}
@@ -15,9 +15,11 @@ export interface AuthFormControl {
   onLogoutButtonClick: () => void;
 }
 
-export interface AuthControlProps extends AuthComponentState, AuthFormControl {
-  loginForm: ModalFormInnerProps;
-  registerForm: ModalFormInnerProps;
+export interface AuthModalFormControl {
+  loginForm: ModalFormUIProps;
+  registerForm: ModalFormUIProps;
 }
+
+export type AuthControlProps = AuthComponentState & AuthFormControl & AuthModalFormControl;
 
 export const authTokenStorageLabel = "AUTH_TOKEN";

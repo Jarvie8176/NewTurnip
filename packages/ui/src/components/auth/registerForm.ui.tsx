@@ -1,29 +1,19 @@
 import { Form, Input } from "antd";
-import { observer } from "mobx-react";
+import { FormInstance } from "antd/lib/form";
 import React from "react";
-import { useRootStore } from "../../shared/rootStore";
-import { ModalFormInnerProps } from "../common/modalForm.interface";
-import { createModalForm, FormUI } from "../common/modalForm.ui";
+import { FormUIProps, ModalFormUIProps } from "../common/modalForm.interface";
+import { FormUI, ModalFormWrapper } from "../common/modalForm.ui";
 
-export const RegisterForm = observer((props: ModalFormInnerProps) => {
-  const { authStore } = useRootStore();
-  const confirmLoading = authStore.loading;
-
-  const [formInstance] = Form.useForm();
-  const formComponent = (
-    <FormUI form={formInstance}>
+const RegisterModalFormInnerForm = (props: FormUIProps) => {
+  const { form } = props;
+  return (
+    <FormUI form={form}>
       <Form.Item
         name="username"
         label="email"
         rules={[
-          {
-            type: "email",
-            message: "The input is not valid E-mail!",
-          },
-          {
-            required: true,
-            message: "Please input your E-mail!",
-          },
+          { type: "email", message: "The input is not valid E-mail!" },
+          { required: true, message: "Please input your E-mail!" },
         ]}
       >
         <Input />
@@ -31,12 +21,7 @@ export const RegisterForm = observer((props: ModalFormInnerProps) => {
       <Form.Item
         name="password"
         label="Password"
-        rules={[
-          {
-            required: true,
-            message: "Please input your password!",
-          },
-        ]}
+        rules={[{ required: true, message: "Please input your password!" }]}
         hasFeedback
       >
         <Input.Password />
@@ -48,10 +33,7 @@ export const RegisterForm = observer((props: ModalFormInnerProps) => {
         dependencies={["password"]}
         hasFeedback
         rules={[
-          {
-            required: true,
-            message: "Please confirm your password!",
-          },
+          { required: true, message: "Please confirm your password!" },
           ({ getFieldValue }) => ({
             validator(_rule, value) {
               if (!value || getFieldValue("password") === value) return Promise.resolve();
@@ -64,5 +46,9 @@ export const RegisterForm = observer((props: ModalFormInnerProps) => {
       </Form.Item>
     </FormUI>
   );
-  return createModalForm({ confirmLoading, formInstance, formComponent, ...props });
-});
+};
+
+export const RegisterModalForm = (props: ModalFormUIProps) => {
+  const getFormComponent = (form: FormInstance) => <RegisterModalFormInnerForm form={form} {...props} />;
+  return <ModalFormWrapper getFormComponent={getFormComponent} {...props} />;
+};

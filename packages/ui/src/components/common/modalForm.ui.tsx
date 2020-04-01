@@ -1,11 +1,6 @@
 import { Form, Modal } from "antd";
-import React from "react";
-import styled from "styled-components";
-import { FormUIProps, ModalFormProps } from "./modalForm.interface";
-
-const FormContainer = styled.div`
-  margin: 1em;
-`;
+import React, { useEffect, useState } from "react";
+import { FormUIProps, ModalFormProps, ModalFormWrapperProps, ModalUIProps } from "./modalForm.interface";
 
 export const FormUI = (props: FormUIProps) => {
   const layout: FormUIProps = {
@@ -19,24 +14,54 @@ export const FormUI = (props: FormUIProps) => {
   return <Form {...layout} {...props} />;
 };
 
-export function createModalForm(props: ModalFormProps) {
-  const { onCreate, onCancel, formInstance, formComponent } = props;
-  const [form] = Form.useForm(formInstance);
+const ModalUI = (props: ModalUIProps) => {
+  const { visible, onOk, onCancel } = props;
+
+  const [reloaded, setReloaded] = useState(false);
+
+  const { form } = props;
+
+  useEffect(() => {
+    if (!visible || reloaded) return;
+    form.resetFields();
+    console.log("reload form initial values");
+    setReloaded(true);
+  }, [visible, form, reloaded]);
 
   return (
     <Modal
       width={"80vw"}
-      onOk={async () => {
-        const values = await form.validateFields();
-        await onCreate(values, () => form.resetFields());
-      }}
+      onOk={onOk}
       onCancel={(...args) => {
         form.resetFields();
         onCancel?.(...args);
       }}
+      afterClose={() => setReloaded(false)}
       {...props}
-    >
-      <FormContainer>{formComponent}</FormContainer>
-    </Modal>
+    />
   );
-}
+};
+
+export const ModalForm = (props: ModalFormProps) => {
+  const { form, formComponent, onCreate, ...otherProps } = props;
+
+  const modalOnOk = async () => {
+    const values = await form.validateFields();
+    await onCreate(values, () => form.resetFields());
+  };
+
+  return (
+    <ModalUI form={form} onOk={modalOnOk} {...otherProps}>
+      {formComponent}
+    </ModalUI>
+  );
+};
+
+export const ModalFormWrapper = (props: ModalFormWrapperProps) => {
+  const { getFormComponent, ...modalFormProps } = props;
+
+  const [form] = Form.useForm();
+  const formComponent = getFormComponent(form);
+
+  return <ModalForm formComponent={formComponent} form={form} {...modalFormProps} />;
+};

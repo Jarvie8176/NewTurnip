@@ -1,32 +1,32 @@
 import { DatePicker, Form, Input } from "antd";
-import { observer } from "mobx-react";
+import { FormInstance } from "antd/lib/form";
 import moment from "moment-timezone";
 import React from "react";
 import { useRootStore } from "../../shared/rootStore";
-import { ModalFormInnerProps } from "../common/modalForm.interface";
-import { createModalForm, FormUI } from "../common/modalForm.ui";
+import { FormUIProps, ModalFormUIProps } from "../common/modalForm.interface";
+import { FormUI, ModalFormWrapper } from "../common/modalForm.ui";
 import { SWCodeInput } from "../common/swCodeInput.ui";
 
-export const ProfileForm = observer((props: ModalFormInnerProps) => {
+const ProfileModalFormInnerForm = (props: FormUIProps) => {
+  const { form } = props;
+
   const { profileStore } = useRootStore();
-  const { confirmLoading, profileData } = profileStore;
-
-  const [formInstance] = Form.useForm();
-
-  const settings = profileData?.profile.settings;
+  const { profileData } = profileStore;
 
   const localTimeOffsetMinutes = profileData?.profile.settings.localTimeOffsetMinutes || 0;
-
-  const playerName = settings?.playerName || null;
-  const islandName = settings?.islandName || null;
-
   const localTimestamp = moment().add(localTimeOffsetMinutes, "minutes").subtract(moment().utcOffset(), "minutes");
   if (localTimeOffsetMinutes > 0) localTimestamp.add(1, "minutes");
+
+  const settings = profileData?.profile.settings;
+  const playerName = settings?.playerName || null;
+  const islandName = settings?.islandName || null;
   const swCode = settings?.swCode || null;
   const dodoCode = settings?.dodoCode || null;
 
-  const formComponent = (
-    <FormUI form={formInstance} initialValues={{ playerName, islandName, localTimestamp, swCode, dodoCode }}>
+  const initialValues = { playerName, islandName, localTimestamp, swCode, dodoCode };
+
+  return (
+    <FormUI form={form} initialValues={initialValues}>
       <Form.Item label="岛主" name="playerName" rules={[]}>
         <Input />
       </Form.Item>
@@ -44,5 +44,9 @@ export const ProfileForm = observer((props: ModalFormInnerProps) => {
       </Form.Item>
     </FormUI>
   );
-  return createModalForm({ confirmLoading, formInstance, formComponent, ...props });
-});
+};
+
+export const ProfileModalForm = (props: ModalFormUIProps) => {
+  const getFormComponent = (form: FormInstance) => <ProfileModalFormInnerForm form={form} {...props} />;
+  return <ModalFormWrapper getFormComponent={getFormComponent} {...props} />;
+};

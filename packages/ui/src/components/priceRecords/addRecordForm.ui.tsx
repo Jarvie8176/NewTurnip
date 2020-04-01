@@ -1,29 +1,31 @@
 import { DatePicker, Form, Input, InputNumber } from "antd";
+import { FormInstance } from "antd/lib/form";
 import { observer } from "mobx-react";
 import moment from "moment-timezone";
 import React from "react";
 import { useRootStore } from "../../shared/rootStore";
-import { ModalFormInnerProps } from "../common/modalForm.interface";
-import { createModalForm, FormUI } from "../common/modalForm.ui";
+import { FormUIProps, ModalFormUIProps } from "../common/modalForm.interface";
+import { FormUI, ModalFormWrapper } from "../common/modalForm.ui";
 import { SWCodeInput } from "../common/swCodeInput.ui";
 
-export const AddRecordForm = observer((props: ModalFormInnerProps) => {
-  const { priceRecordsStore, profileStore } = useRootStore();
-  const confirmLoading = priceRecordsStore.createRecordLoading;
+const AddRecordModalInnerForm = observer((props: FormUIProps) => {
+  const { form } = props;
 
-  const { playerName, islandName, swCode } = profileStore.profileData?.profile.settings || {};
+  const { profileStore } = useRootStore();
+
+  const settings = profileStore.profileData?.profile.settings;
+
+  const playerName = settings?.playerName || null;
+  const islandName = settings?.islandName || null;
+  const swCode = settings?.swCode || null;
+  const dodoCode = settings?.dodoCode || null;
+
   const reportedAt = moment();
 
-  const initialValues = {
-    playerName,
-    islandName,
-    swCode,
-    reportedAt,
-  };
+  const initialValues = { playerName, islandName, dodoCode, swCode, reportedAt };
 
-  const [formInstance] = Form.useForm();
-  const formComponent = (
-    <FormUI form={formInstance} initialValues={initialValues}>
+  return (
+    <FormUI form={form} initialValues={initialValues}>
       <Form.Item label="岛主" name="playerName" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
@@ -41,5 +43,9 @@ export const AddRecordForm = observer((props: ModalFormInnerProps) => {
       </Form.Item>
     </FormUI>
   );
-  return createModalForm({ confirmLoading, formInstance, formComponent, ...props });
 });
+
+export const AddRecordModalForm = (props: ModalFormUIProps) => {
+  const getFormComponent = (form: FormInstance) => <AddRecordModalInnerForm form={form} {...props} />;
+  return <ModalFormWrapper getFormComponent={getFormComponent} {...props} />;
+};
