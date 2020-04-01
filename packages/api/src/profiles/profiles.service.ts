@@ -16,10 +16,11 @@ export class ProfilesService {
     private readonly usersRepository: Repository<UsersEntity>
   ) {}
 
-  async getByUser(_user: ValidatedUser.Type): Promise<UserProfile | undefined> {
+  async getByUser(user: ValidatedUser.Type): Promise<UserProfile | undefined> {
     const data = await this.profilesRepository
       .createQueryBuilder("profile")
-      .innerJoinAndSelect("profile.user", "user")
+      .innerJoinAndSelect("profile.user", "users")
+      .where("users.id = :id", { id: user.id })
       .getOne();
 
     if (!data) throw new NotFoundException();
@@ -35,21 +36,20 @@ export class ProfilesService {
 
   async replaceUserProfile(userIdentifier: ValidatedUser.Type, settings: ProfilesEntity["settings"]): Promise<void> {
     // fixme: should do a proper upsert, for now just select-then-update to keep things simple
+    const existingProfile = await this.profilesRepository.findOne({ user: { id: userIdentifier.id } });
 
-    const existingProfile = await this.profilesRepository.findOne({ where: { userId: userIdentifier.id } });
-
-    if (!existingProfile) {
-      console.log("no profile found, creating a new one");
-      const user = await this.usersRepository.findOne({ id: userIdentifier.id });
-      if (!user) throw new BadRequestException("user not found");
-
-      const newProfile = new ProfilesEntity();
-      newProfile.user = user;
-      newProfile.settings = settings;
-      await this.profilesRepository.save(newProfile);
+    if (existingProfile) {
+      await this.profilesRepository.update({ id: existingProfile.id }, { settings });
       return;
     }
 
-    await this.profilesRepository.update({ id: existingProfile.id }, { settings });
+    const user = await this.usersRepository.findOne({ id: userIdentifier.id });
+    if (!user) throw new BadRequestException("user not found");
+
+    const newProfile = new ProfilesEntity();
+    newProfile.user = user;
+    newProfile.settings = settings;
+    await this.profilesRepository.save(newProfile);
+    return;
   }
 }

@@ -12,7 +12,6 @@ const AddRecordModalInnerForm = observer((props: FormUIProps) => {
   const { form } = props;
 
   const { profileStore } = useRootStore();
-
   const settings = profileStore.profileData?.profile.settings;
 
   const playerName = settings?.playerName || null;
@@ -45,7 +44,10 @@ const AddRecordModalInnerForm = observer((props: FormUIProps) => {
   );
 });
 
-export const AddRecordModalForm = (props: ModalFormUIProps) => {
+export const AddRecordModalForm = observer((props: ModalFormUIProps) => {
+  const { profileStore } = useRootStore();
+  const confirmLoading = profileStore.confirmLoading;
+
   const getFormComponent = (form: FormInstance) => <AddRecordModalInnerForm form={form} {...props} />;
-  return <ModalFormWrapper getFormComponent={getFormComponent} {...props} />;
-};
+  return <ModalFormWrapper getFormComponent={getFormComponent} {...props} modalProps={{ confirmLoading }} />;
+});

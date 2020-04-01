@@ -22,15 +22,21 @@ export default class AuthComponent extends PureComponent<{}, AuthComponentState>
   };
 
   login = async (input: Login.Request.Type) => {
-    await this.context.authStore.authenticate(input).catch((err) => {
+    try {
+      await this.context.authStore.authenticate(input);
+      await this.context.profileStore
+        .loadCurrentUserProfile()
+        .catch((err) => console.log("failed to load user profile", err));
+    } catch (err) {
       NotificationManager.ShowError(err);
       throw err;
-    });
+    }
     this.toggleLoginForm(false);
   };
 
   logout = async () => {
     await this.context.authStore.logout();
+    await this.context.profileStore.clear();
   };
 
   register = async (input: CreateUser.Request.Type) => {

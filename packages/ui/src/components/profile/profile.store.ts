@@ -36,4 +36,8 @@ export class ProfileStore {
       runInAction(() => (this.confirmLoading = false));
     }
   }
+
+  @action async clear(): Promise<void> {
+    runInAction(() => (this.profileData = undefined));
+  }
 }

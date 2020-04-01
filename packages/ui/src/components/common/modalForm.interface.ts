@@ -22,13 +22,17 @@ export interface ModalFormInnerProps extends Omit<ModalUIProps, "children"> {
 
 export interface ModalFormProps extends Omit<ModalFormInnerProps, "onOk"> {
   formComponent: JSX.Element;
+  modalProps?: ModalProps;
+  formProps?: FormProps;
 }
 
 export interface ModalFormWrapperProps extends Omit<ModalFormInnerProps, "form" | "onOk"> {
   getFormComponent: (form: FormInstance) => JSX.Element;
+  modalProps?: ModalProps;
+  formProps?: FormProps;
 }
 
-export interface ModalFormUIProps extends Omit<ModalFormWrapperProps, "getFormComponent"> {}
+export interface ModalFormUIProps extends Omit<ModalFormInnerProps, "form" | "onOk"> {}
 
 //import { FormInstance, FormProps } from "antd/lib/form";
 //import { ModalProps } from "antd/lib/modal";

@@ -43,7 +43,7 @@ const ModalUI = (props: ModalUIProps) => {
 };
 
 export const ModalForm = (props: ModalFormProps) => {
-  const { form, formComponent, onCreate, ...otherProps } = props;
+  const { form, formComponent, onCreate, modalProps, ...otherProps } = props;
 
   const modalOnOk = async () => {
     const values = await form.validateFields();
@@ -51,17 +51,17 @@ export const ModalForm = (props: ModalFormProps) => {
   };
 
   return (
-    <ModalUI form={form} onOk={modalOnOk} {...otherProps}>
+    <ModalUI form={form} onOk={modalOnOk} {...modalProps} {...otherProps}>
       {formComponent}
     </ModalUI>
   );
 };
 
 export const ModalFormWrapper = (props: ModalFormWrapperProps) => {
-  const { getFormComponent, ...modalFormProps } = props;
+  const { getFormComponent, ...otherProps } = props;
 
   const [form] = Form.useForm();
   const formComponent = getFormComponent(form);
 
-  return <ModalForm formComponent={formComponent} form={form} {...modalFormProps} />;
+  return <ModalForm formComponent={formComponent} form={form} {...otherProps} />;
 };

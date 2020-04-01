@@ -9,7 +9,7 @@ module.exports = {
   transform: {
     "^.+\\.(t|j)s$": "ts-jest",
   },
-  collectCoverageFrom: ["**/*.ts"],
+  collectCoverageFrom: ["src/**/*.ts"],
   resetMocks: true,
   verbose: true,
   setupFiles: ["<rootDir>/src/init.ts"],
