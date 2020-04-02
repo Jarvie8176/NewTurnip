@@ -3,14 +3,23 @@ const fs = require("fs");
 const _ = require("lodash");
 
 const dotenvPaths = [
+  ".env.test.local",
   ".env.development.local",
   ".env.production.local",
   ".env.local",
+  ".env.test",
   ".env.development",
   ".env.production",
   ".env",
 ];
-const dotenvPath = _.find(dotenvPaths, (fileName) => fs.existsSync(fileName) && fs.statSync(fileName).size);
+
+const dotenvPathCandidates = (() => {
+  const nodeEnv = process.env.NODE_ENV;
+  if (!nodeEnv) return dotenvPaths;
+  return _.filter(dotenvPaths, (i) => i === ".env.local" || i === ".env" || _.includes(i, nodeEnv));
+})();
+
+const dotenvPath = _.find(dotenvPathCandidates, (fileName) => fs.existsSync(fileName) && fs.statSync(fileName).size);
 if (dotenvPath) require("dotenv").config({ path: dotenvPath });
 
 const config = {
@@ -38,4 +47,5 @@ if (process.env.NODE_ENV === "production") {
     ssl: false,
   };
 }
+
 module.exports = config;

@@ -18,7 +18,6 @@ const AddRecordModalInnerForm = observer((props: FormUIProps) => {
   const islandName = settings?.islandName || null;
   const swCode = settings?.swCode || null;
   const dodoCode = settings?.dodoCode || null;
-
   const reportedAt = moment();
 
   const initialValues = { playerName, islandName, dodoCode, swCode, reportedAt };
@@ -45,9 +44,18 @@ const AddRecordModalInnerForm = observer((props: FormUIProps) => {
 });
 
 export const AddRecordModalForm = observer((props: ModalFormUIProps) => {
-  const { profileStore } = useRootStore();
+  const { profileStore, priceRecordsState } = useRootStore();
   const confirmLoading = profileStore.confirmLoading;
 
+  const visible = priceRecordsState.addRecordFormVisible;
+
   const getFormComponent = (form: FormInstance) => <AddRecordModalInnerForm form={form} {...props} />;
-  return <ModalFormWrapper getFormComponent={getFormComponent} {...props} modalProps={{ confirmLoading }} />;
+  return (
+    <ModalFormWrapper
+      visible={visible}
+      getFormComponent={getFormComponent}
+      {...props}
+      modalProps={{ confirmLoading }}
+    />
+  );
 });

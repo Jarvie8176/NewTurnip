@@ -1,6 +1,6 @@
 import { ModalFormUIProps } from "../common/modalForm.interface";
 
-export interface PriceRecordsComponentState {
+export interface IPriceRecordsState {
   addRecordFormVisible: boolean;
 }
 

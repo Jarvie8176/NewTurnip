@@ -6,18 +6,14 @@ import React, { PureComponent } from "react";
 import { rootStoreContext } from "../../shared/rootStore";
 import { ModalFormUIProps, TOnFormCreate } from "../common/modalForm.interface";
 import NotificationManager from "../notification/notificationManager";
-import { PriceRecordsComponentState } from "./priceRecords.interface";
+import { IPriceRecordsState } from "./priceRecords.interface";
 import { PriceRecordsWrapper } from "./priceRecords.ui";
 import { CreatePriceRecordDto } from "./priceRecordsTable.dto";
 
 @observer
-export default class PriceRecordsComponent extends PureComponent<{}, PriceRecordsComponentState> {
+export default class PriceRecordsComponent extends PureComponent<{}, IPriceRecordsState> {
   static contextType = rootStoreContext;
   context!: React.ContextType<typeof rootStoreContext>;
-
-  state = {
-    addRecordFormVisible: false,
-  };
 
   // ==================== data interaction
   loadData = async (): Promise<void> => {
@@ -38,9 +34,7 @@ export default class PriceRecordsComponent extends PureComponent<{}, PriceRecord
   // ==================== UI interaction
 
   toggleAddRecordForm = (visible: boolean): void => {
-    this.setState({
-      addRecordFormVisible: visible,
-    });
+    this.context.priceRecordsState.setAddRecordFormVisible(visible);
   };
 
   onAddRecordFormCreate: TOnFormCreate = async (input, confirm) => {
@@ -68,7 +62,6 @@ export default class PriceRecordsComponent extends PureComponent<{}, PriceRecord
 
   render() {
     const addRecordFormProps: ModalFormUIProps = {
-      visible: this.state.addRecordFormVisible,
       onCreate: this.onAddRecordFormCreate,
       onCancel: this.onAddRecordFormCancel,
     };

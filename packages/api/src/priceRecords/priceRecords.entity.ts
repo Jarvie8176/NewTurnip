@@ -6,14 +6,8 @@ export class PriceRecordsEntity {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column({ type: "text", nullable: false })
-  playerName!: string;
-
-  @Column({ type: "text", nullable: false })
-  islandName!: string;
-
   @Column({ type: "text", nullable: true })
-  swCode?: string;
+  localTimeOffsetMinutes?: string;
 
   @Column({ type: "numeric", nullable: false })
   price!: string;

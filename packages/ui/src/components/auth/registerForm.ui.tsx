@@ -1,6 +1,8 @@
 import { Form, Input } from "antd";
 import { FormInstance } from "antd/lib/form";
+import { observer } from "mobx-react";
 import React from "react";
+import { useRootStore } from "../../shared/rootStore";
 import { FormUIProps, ModalFormUIProps } from "../common/modalForm.interface";
 import { FormUI, ModalFormWrapper } from "../common/modalForm.ui";
 
@@ -48,7 +50,8 @@ const RegisterModalFormInnerForm = (props: FormUIProps) => {
   );
 };
 
-export const RegisterModalForm = (props: ModalFormUIProps) => {
+export const RegisterModalForm = observer((props: ModalFormUIProps) => {
+  const visible = useRootStore().authState.registerFormVisible;
   const getFormComponent = (form: FormInstance) => <RegisterModalFormInnerForm form={form} {...props} />;
-  return <ModalFormWrapper getFormComponent={getFormComponent} {...props} />;
-};
+  return <ModalFormWrapper visible={visible} getFormComponent={getFormComponent} {...props} />;
+});

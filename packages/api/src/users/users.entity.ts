@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { PriceRecordsEntity } from "../priceRecords/priceRecords.entity";
 import { ProfilesEntity } from "../profiles/profiles.entity";
 
@@ -20,6 +20,5 @@ export class UsersEntity {
   priceRecords?: PriceRecordsEntity[];
 
   @OneToOne(() => ProfilesEntity, (profile) => profile.user)
-  @JoinColumn()
   profile?: ProfilesEntity;
 }

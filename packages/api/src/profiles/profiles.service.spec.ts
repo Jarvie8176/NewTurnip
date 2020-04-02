@@ -1,10 +1,10 @@
 import { makeUuid } from "@ansik/sdk/lib/utils";
 import { Test } from "@nestjs/testing";
 import { Repository } from "typeorm";
-import { injectTestUtilModule } from "../testUtil.module";
+import { TestUtilModule } from "../testUtil.module";
 import { UsersEntity } from "../users/users.entity";
 import { ProfilesEntity } from "./profiles.entity";
-import { ProfilesModuleMetadata } from "./profiles.module.meta";
+import { ProfilesModule } from "./profiles.module";
 import { ProfilesService } from "./profiles.service";
 import typeorm = require("typeorm");
 
@@ -16,14 +16,15 @@ describe("profilesService", () => {
     let profilesRepository: Repository<ProfilesEntity>;
 
     beforeEach(async () => {
-      const moduleRef = await Test.createTestingModule(injectTestUtilModule(ProfilesModuleMetadata)).compile();
+      const moduleRef = await Test.createTestingModule({
+        imports: [ProfilesModule, TestUtilModule],
+      }).compile();
       profilesService = moduleRef.get<ProfilesService>(ProfilesService);
       profilesRepository = typeorm.getRepository(ProfilesEntity);
       usersRepository = typeorm.getRepository(UsersEntity);
     });
 
     test("fetches user profile by userId", async () => {
-      jest.setTimeout(20000);
       const user1 = new UsersEntity();
       user1.username = "a";
       user1.password = makeUuid();

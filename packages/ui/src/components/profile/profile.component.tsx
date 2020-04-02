@@ -15,9 +15,6 @@ interface IState {
 
 @observer
 export default class ProfileComponent extends PureComponent<{}, IState> {
-  state = {
-    profileFormVisible: false,
-  };
   static contextType = rootStoreContext;
   context!: React.ContextType<typeof rootStoreContext>;
 
@@ -28,9 +25,7 @@ export default class ProfileComponent extends PureComponent<{}, IState> {
   }
 
   toggleProfileForm(visible: boolean): void {
-    this.setState({
-      profileFormVisible: visible,
-    });
+    this.context.profileState.setProfileFormVisible(visible);
   }
 
   onProfileButtonClick = () => {
@@ -64,7 +59,6 @@ export default class ProfileComponent extends PureComponent<{}, IState> {
 
   render() {
     const profileFormProps: ModalFormUIProps = {
-      visible: this.state.profileFormVisible,
       onCreate: this.onProfileFormCreate,
       onCancel: this.onProfileFormCancel,
     };

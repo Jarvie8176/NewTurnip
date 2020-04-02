@@ -7,6 +7,7 @@ import { ConfigDefinition } from "../configDefinition";
 export class TypedConfigService {
   readonly config: ConfigDefinition.Type;
   constructor() {
+    console.log("NODE_ENV", process.env.NODE_ENV);
     this.config = decodeDto(exact(ConfigDefinition.dto), process.env);
     console.log("typed config loaded");
   }

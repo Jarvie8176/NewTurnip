@@ -1,25 +1,17 @@
 import { decodeDto } from "@ansik/sdk/lib/utils";
 import { CreateUser, Login } from "@turnip-market/dtos";
 import _ from "lodash";
+import { observer } from "mobx-react";
 import React, { PureComponent } from "react";
 import { rootStoreContext } from "../../shared/rootStore";
 import { ModalFormUIProps, TOnFormCreate } from "../common/modalForm.interface";
 import NotificationManager from "../notification/notificationManager";
-import { AuthComponentState } from "./auth.interfaces";
 import { AuthControlWrapper } from "./authControl.ui";
 
-export default class AuthComponent extends PureComponent<{}, AuthComponentState> {
+@observer
+export default class AuthComponent extends PureComponent {
   static contextType = rootStoreContext;
   context!: React.ContextType<typeof rootStoreContext>;
-
-  state = {
-    loginForm: {
-      visible: false,
-    },
-    registerForm: {
-      visible: false,
-    },
-  };
 
   login = async (input: Login.Request.Type) => {
     try {
@@ -48,7 +40,7 @@ export default class AuthComponent extends PureComponent<{}, AuthComponentState>
   };
 
   toggleLoginForm = (visible: boolean) => {
-    this.setState({ loginForm: { visible } });
+    this.context.authState.setLoginFormVisible(visible);
   };
 
   onLoginFormCreate: TOnFormCreate = async (input, confirm) => {
@@ -62,7 +54,8 @@ export default class AuthComponent extends PureComponent<{}, AuthComponentState>
   };
 
   toggleRegisterForm = (visible: boolean) => {
-    this.setState({ registerForm: { visible } });
+    console.log("toggleRegisterForm", visible);
+    this.context.authState.setRegisterFormVisible(visible);
   };
 
   onRegisterFormCreate: TOnFormCreate = async (input, confirm) => {
@@ -77,13 +70,13 @@ export default class AuthComponent extends PureComponent<{}, AuthComponentState>
   };
 
   render() {
+    const { loginFormVisible, registerFormVisible } = this.context.authState;
+
     const loginFormProps: ModalFormUIProps = {
-      visible: this.state.loginForm.visible,
       onCreate: this.onLoginFormCreate,
       onCancel: () => this.toggleLoginForm(false),
     };
     const registerFormProps: ModalFormUIProps = {
-      visible: this.state.registerForm.visible,
       onCreate: this.onRegisterFormCreate,
       onCancel: () => this.toggleRegisterForm(false),
     };
@@ -95,6 +88,8 @@ export default class AuthComponent extends PureComponent<{}, AuthComponentState>
         onLogoutButtonClick={this.logout}
         loginForm={loginFormProps}
         registerForm={registerFormProps}
+        loginFormVisible={loginFormVisible}
+        registerFormVisible={registerFormVisible}
       />
     );
   }

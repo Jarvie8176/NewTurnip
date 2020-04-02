@@ -3,8 +3,8 @@ import { NotificationDto } from "./notification.dto";
 
 export default class NotificationManager {
   static ShowError(err: Error): void {
-    const title = `Error: ${err.message}`;
-    const content = err.stack;
+    const title = "";
+    const content = err.message;
 
     const notification: NotificationDto = { title, content };
     message.error(NotificationManager.ToMessage(notification));

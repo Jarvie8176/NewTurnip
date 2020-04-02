@@ -1,5 +1,6 @@
 import { DatePicker, Form, Input } from "antd";
 import { FormInstance } from "antd/lib/form";
+import { observer } from "mobx-react";
 import moment from "moment-timezone";
 import React from "react";
 import { useRootStore } from "../../shared/rootStore";
@@ -46,7 +47,9 @@ const ProfileModalFormInnerForm = (props: FormUIProps) => {
   );
 };
 
-export const ProfileModalForm = (props: ModalFormUIProps) => {
+export const ProfileModalForm = observer((props: ModalFormUIProps) => {
+  const { profileState } = useRootStore();
+  const visible = profileState.profileFormVisible;
   const getFormComponent = (form: FormInstance) => <ProfileModalFormInnerForm form={form} {...props} />;
-  return <ModalFormWrapper getFormComponent={getFormComponent} {...props} />;
-};
+  return <ModalFormWrapper visible={visible} getFormComponent={getFormComponent} {...props} />;
+} );

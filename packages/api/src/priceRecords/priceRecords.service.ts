@@ -2,6 +2,7 @@ import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { AddPriceRecords } from "@turnip-market/dtos";
 import { Repository } from "typeorm";
+import { ProfilesEntity } from "../profiles/profiles.entity";
 import { UsersEntity } from "../users/users.entity";
 import { ValidatedUser } from "../users/users.interface";
 import { NullOrValue } from "../utils/nullCast";
@@ -14,7 +15,9 @@ import moment = require("moment");
 export class PriceRecordsService {
   constructor(
     @InjectRepository(PriceRecordsEntity)
-    private readonly priceRecordsRepository: Repository<PriceRecordsEntity>
+    private readonly priceRecordsRepository: Repository<PriceRecordsEntity>,
+    @InjectRepository(ProfilesEntity)
+    private readonly profilesRepository: Repository<ProfilesEntity>
   ) {}
 
   async getAllRecords(): Promise<PriceRecordsDto[]> {
@@ -36,22 +39,7 @@ export class PriceRecordsService {
       .leftJoinAndSelect("users.profile", "profiles")
       .orderBy({ "priceRecords.reportedAt": "DESC" })
       .getMany();
-    return _.map(
-      records,
-      (item): PriceRecordsDto => {
-        const { id, playerName, islandName, price, reportedAt } = item;
-        const { swCode, localTimeOffsetMinutes } = item.reportedBy?.profile?.settings || {};
-        return {
-          id,
-          price,
-          reportedAt,
-          playerName,
-          islandName,
-          swCode: NullOrValue(swCode),
-          timeOffsetInMinutes: NullOrValue(localTimeOffsetMinutes),
-        };
-      }
-    );
+    return _.map(records, (item) => PriceRecordsService.PriceRecordsEntityToDto(item));
   }
 
   async addRecord(options: {
@@ -59,17 +47,20 @@ export class PriceRecordsService {
     user: ValidatedUser.Type;
   }): Promise<PriceRecordsDto> {
     const { input, user } = options;
-    const { swCode, price, playerName, islandName, reportedAt } = input;
+    const { price, reportedAt } = input;
 
-    const usersEntity = new UsersEntity();
-    usersEntity.id = user.id;
+    const userProfile = await this.profilesRepository
+      .createQueryBuilder("profiles")
+      .innerJoinAndSelect("profiles.user", "users")
+      .where("users.id = :userId", { userId: user.id })
+      .getOne();
+
+    const userEntity = userProfile ? userProfile.user : ({ id: user.id } as UsersEntity);
 
     const newPriceRecord = new PriceRecordsEntity();
-    newPriceRecord.swCode = !_.isNil(swCode) ? swCode : undefined;
     newPriceRecord.price = price;
-    newPriceRecord.playerName = playerName;
-    newPriceRecord.islandName = islandName;
-    newPriceRecord.reportedBy = usersEntity;
+    newPriceRecord.reportedBy = userEntity;
+    newPriceRecord.localTimeOffsetMinutes = userProfile?.settings.localTimeOffsetMinutes || undefined;
     const reportedAtTimestamp = moment(reportedAt, moment.ISO_8601);
     if (!reportedAtTimestamp.isValid()) throw new Error("invalid reportedAt");
     newPriceRecord.reportedAt = reportedAtTimestamp.toDate();
@@ -80,25 +71,27 @@ export class PriceRecordsService {
       .createQueryBuilder("priceRecords")
       .leftJoinAndSelect("priceRecords.reportedBy", "users")
       .leftJoinAndSelect("users.profile", "profiles")
-      .where({
-        "priceRecords.id": newPriceRecord.id,
-      })
+      .where("priceRecords.id = :id", { id: newPriceRecord.id })
       .getOne();
 
     if (!item) throw new InternalServerErrorException();
 
-    return ((): PriceRecordsDto => {
-      const { id, playerName, islandName, price, reportedAt } = item;
-      const { swCode, localTimeOffsetMinutes } = item.reportedBy?.profile?.settings || {};
-      return {
-        id,
-        price,
-        reportedAt,
-        playerName,
-        islandName,
-        swCode: NullOrValue(swCode),
-        timeOffsetInMinutes: NullOrValue(localTimeOffsetMinutes),
-      };
-    })();
+    return PriceRecordsService.PriceRecordsEntityToDto(item);
+  }
+
+  private static PriceRecordsEntityToDto(priceRecordsEntity: PriceRecordsEntity): PriceRecordsDto {
+    const { id, reportedBy, price, localTimeOffsetMinutes, reportedAt } = priceRecordsEntity;
+    const playerName = reportedBy?.profile?.settings.playerName || "";
+    const islandName = reportedBy?.profile?.settings.islandName || "";
+    const { swCode } = priceRecordsEntity.reportedBy?.profile?.settings || {};
+    return {
+      id,
+      price,
+      reportedAt,
+      playerName,
+      islandName,
+      swCode: NullOrValue(swCode),
+      timeOffsetInMinutes: NullOrValue(localTimeOffsetMinutes),
+    };
   }
 }
