@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { ForbiddenException, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { compare } from "bcrypt";
 import { ValidatedUser } from "../users/users.interface";
@@ -14,7 +14,7 @@ export class AuthService {
     const user = await this.usersService.findOne(username);
     if (!user) return;
     const passwordMatches = await compare(pass, user.password);
-    if (!passwordMatches) throw new UnauthorizedException();
+    if (!passwordMatches) throw new ForbiddenException();
     const { id } = user;
     return { id };
   }

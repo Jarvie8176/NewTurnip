@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { AddPriceRecords } from "@turnip-market/dtos";
-import { Repository } from "typeorm";
+import { Repository, SelectQueryBuilder } from "typeorm";
 import { ProfilesEntity } from "../profiles/profiles.entity";
 import { UsersEntity } from "../users/users.entity";
 import { ValidatedUser } from "../users/users.interface";
@@ -11,8 +11,15 @@ import { PriceRecordsEntity } from "./priceRecords.entity";
 import _ = require("lodash");
 import moment = require("moment");
 
+interface GetRecordsOptions {
+  recordLimit: number;
+  queryModifier?: (queryBuilder: SelectQueryBuilder<PriceRecordsEntity>) => SelectQueryBuilder<PriceRecordsEntity>;
+}
+
 @Injectable()
 export class PriceRecordsService {
+  static MAX_RECORD_LIMIT = 200; // todo: configurable?
+
   constructor(
     @InjectRepository(PriceRecordsEntity)
     private readonly priceRecordsRepository: Repository<PriceRecordsEntity>,
@@ -20,10 +27,9 @@ export class PriceRecordsService {
     private readonly profilesRepository: Repository<ProfilesEntity>
   ) {}
 
-  async getAllRecords(): Promise<PriceRecordsDto[]> {
-    const MAX_RECORD_LIMIT = 200; // todo: configurable?
-
-    const records = await this.priceRecordsRepository
+  private async getRecords(options: GetRecordsOptions): Promise<PriceRecordsDto[]> {
+    const { recordLimit, queryModifier } = options;
+    const query = this.priceRecordsRepository
       .createQueryBuilder("priceRecords")
       .where((qb) => {
         const subQuery = qb
@@ -31,15 +37,27 @@ export class PriceRecordsService {
           .select("selectedPriceRecords.id")
           .from(PriceRecordsEntity, "selectedPriceRecords")
           .orderBy({ "selectedPriceRecords.reportedAt": "DESC" })
-          .limit(MAX_RECORD_LIMIT) // fixme: hard coded max number of objects fetched
+          .limit(recordLimit) // fixme: hard coded max number of objects fetched
           .getQuery();
         return `priceRecords.id IN ${subQuery}`;
       })
       .leftJoinAndSelect("priceRecords.reportedBy", "users")
       .leftJoinAndSelect("users.profile", "profiles")
-      .orderBy({ "priceRecords.reportedAt": "DESC" })
-      .getMany();
+      .orderBy({ "priceRecords.reportedAt": "DESC" });
+    queryModifier?.(query);
+    const records = await query.getMany();
     return _.map(records, (item) => PriceRecordsService.PriceRecordsEntityToDto(item));
+  }
+
+  async getRecordsByUser(user: ValidatedUser.Type): Promise<PriceRecordsDto[]> {
+    return await this.getRecords({
+      recordLimit: PriceRecordsService.MAX_RECORD_LIMIT,
+      queryModifier: (queryBuilder) => queryBuilder.where("users.id = :userId", { userId: user.id }),
+    });
+  }
+
+  async getAllRecords(): Promise<PriceRecordsDto[]> {
+    return await this.getRecords({ recordLimit: PriceRecordsService.MAX_RECORD_LIMIT });
   }
 
   async addRecord(options: {

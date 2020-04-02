@@ -12,7 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const { config } = typedConfigService;
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: true,
+      ignoreExpiration: false,
       secretOrKey: config.JWT_SECRET,
     });
   }

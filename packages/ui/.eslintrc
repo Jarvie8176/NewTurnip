@@ -8,6 +8,7 @@
     "prettier/react"
   ],
   "rules": {
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "react/prefer-stateless-function": ["error", { "ignorePureComponents": false }]
   }
 }

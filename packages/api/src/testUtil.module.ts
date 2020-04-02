@@ -22,7 +22,9 @@ import { TypedConfigModule } from "./config/typed-config.module";
         NODE_ENV: Joi.string().valid("development", "production", "test", "provision").default("development"),
       }),
     }),
-    TypeOrmModule.forRoot(),
+    TypeOrmModule.forRoot({
+      keepConnectionAlive: true,
+    }),
   ],
   exports: [],
 })

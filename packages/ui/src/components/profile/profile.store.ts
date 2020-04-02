@@ -13,7 +13,7 @@ export class ProfileStore {
     console.log(profile);
     try {
       runInAction(() => (this.confirmLoading = true));
-      const { data } = await DataProvider.put("/profiles/me", profile);
+      const { data } = await DataProvider.sendRequest((dataProvider) => dataProvider.put("/profiles/me", profile));
       const response = decodeDto(ReplaceCurrentUserProfile.Response.dto, data);
       const profileData = response.data;
       runInAction(() => (this.profileData = profileData));
@@ -27,7 +27,8 @@ export class ProfileStore {
     try {
       runInAction(() => (this.confirmLoading = true));
       console.log("loading current user profile");
-      const { data } = await DataProvider.get("/profiles/me");
+      const { data } = await DataProvider.sendRequest((dataProvider) => dataProvider.get("/profiles/me"));
+
       const response = decodeDto(GetCurrentUserProfile.Response.dto, data);
       const profileData = response.data;
       runInAction(() => (this.profileData = profileData));

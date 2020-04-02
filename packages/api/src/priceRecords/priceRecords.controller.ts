@@ -18,6 +18,13 @@ export class PriceRecordsController {
     return { data: { priceRecords } };
   }
 
+  @Get("me")
+  @UseGuards(JwtAuthGuard)
+  async getCurrentUserPriceRecords(@User() user: ValidatedUser.Type): Promise<GetPriceRecordsDto> {
+    const priceRecords = await this.priceRecordsService.getRecordsByUser(user);
+    return { data: { priceRecords } };
+  }
+
   @Post()
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: "adds a price record and link to current user" })

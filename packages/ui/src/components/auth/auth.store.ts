@@ -19,7 +19,7 @@ export class AuthStore {
   @action async register(input: CreateUser.Request.Type): Promise<void> {
     try {
       runInAction(() => (this.loading = true));
-      const { data } = await DataProvider.post("/auth/register", input);
+      const { data } = await DataProvider.sendRequest((dataProvider) => dataProvider.post("/auth/register", input));
       const response = decodeDto(CreateUser.Response.dto, data);
       await runInAction(() => this.storeAuthToken(response.data));
     } finally {
@@ -31,7 +31,7 @@ export class AuthStore {
     try {
       runInAction(() => (this.loading = true));
       console.log("sending login request");
-      const { data } = await DataProvider.post("/auth/login", input);
+      const { data } = await DataProvider.sendRequest((dataProvider) => dataProvider.post("/auth/login", input));
       const response = decodeDto(Login.Response.dto, data);
       await runInAction(() => this.storeAuthToken(response.data));
       console.log("login successful");

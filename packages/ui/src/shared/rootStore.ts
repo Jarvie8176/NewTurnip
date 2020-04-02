@@ -5,6 +5,7 @@ import { PriceRecordsState } from "../components/priceRecords/priceRecords.state
 import { PriceRecordsStore } from "../components/priceRecords/priceRecords.store";
 import { ProfileState } from "../components/profile/profile.state";
 import { ProfileStore } from "../components/profile/profile.store";
+import { DataProvider } from "./dataProvider";
 
 export const RootStore = {
   authStore: new AuthStore(),
@@ -13,6 +14,7 @@ export const RootStore = {
   priceRecordsState: new PriceRecordsState(),
   profileStore: new ProfileStore(),
   profileState: new ProfileState(),
+  dataProviderStore: DataProvider,
 };
 
 export const rootStoreContext = createContext(RootStore);

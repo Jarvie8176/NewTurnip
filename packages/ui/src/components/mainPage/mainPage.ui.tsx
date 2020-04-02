@@ -5,6 +5,7 @@ import AuthComponent from "../auth/auth.component";
 import { ControlPanel } from "../controlPanel/controlPanel.ui";
 import PriceRecordsComponent from "../priceRecords/priceRecords.component";
 import ProfileComponent from "../profile/profile.component";
+import { SessionControl } from "../session/session.component";
 
 const ContentWrapper = styled.div`
   & > * {
@@ -15,6 +16,7 @@ const ContentWrapper = styled.div`
 export const MainPageWrapper = () => {
   return (
     <Fragment>
+      <SessionControl />
       <Layout.Header>
         <h2 style={{ color: "#fff" }}>炒萝卜啦！动物森友会</h2>
       </Layout.Header>
