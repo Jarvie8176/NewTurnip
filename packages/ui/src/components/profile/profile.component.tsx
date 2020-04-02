@@ -9,12 +9,8 @@ import { computeTimeDiffInMinutes } from "../../shared/timeOffset.util";
 import { ModalFormUIProps, TOnFormCreate } from "../common/modalForm.interface";
 import { ProfileWrapper } from "./profile.ui";
 
-interface IState {
-  profileFormVisible: boolean;
-}
-
 @observer
-export default class ProfileComponent extends PureComponent<{}, IState> {
+export default class ProfileComponent extends PureComponent {
   static contextType = rootStoreContext;
   context!: React.ContextType<typeof rootStoreContext>;
 
@@ -63,6 +59,6 @@ export default class ProfileComponent extends PureComponent<{}, IState> {
       onCancel: this.onProfileFormCancel,
     };
 
-    return <ProfileWrapper onProfileButtonClick={this.onProfileButtonClick} profileForm={profileFormProps} />;
+    return <ProfileWrapper profileForm={profileFormProps} />;
   }
 }

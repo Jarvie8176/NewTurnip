@@ -25,13 +25,13 @@ const AddRecordModalInnerForm = observer((props: FormUIProps) => {
   return (
     <FormUI form={form} initialValues={initialValues}>
       <Form.Item label="岛主" name="playerName" rules={[{ required: true }]}>
-        <Input />
+        <Input disabled={true} placeholder={`在"设置“里填写`} />
       </Form.Item>
       <Form.Item label="岛名" name="islandName" rules={[{ required: true }]}>
-        <Input />
+        <Input disabled={true} placeholder={`在"设置“里填写`} />
       </Form.Item>
-      <Form.Item label="好友代码" name="swCode" rules={[{ required: false }]}>
-        <SWCodeInput />
+      <Form.Item label="好友编号" name="swCode" rules={[{ required: false }]}>
+        <SWCodeInput disabled={true} placeholder={`在"设置“里填写`} />
       </Form.Item>
       <Form.Item label="萝卜报价" name="price" rules={[{ type: "number", min: 0, max: 9999 }, { required: true }]}>
         <InputNumber />

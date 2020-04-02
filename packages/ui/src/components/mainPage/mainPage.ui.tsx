@@ -1,8 +1,10 @@
 import { Layout } from "antd";
 import React, { Fragment } from "react";
 import styled from "styled-components";
-import { UserControlPanel } from "../controlPanel/UserControlPanel.ui";
+import AuthComponent from "../auth/auth.component";
+import { ControlPanel } from "../controlPanel/controlPanel.ui";
 import PriceRecordsComponent from "../priceRecords/priceRecords.component";
+import ProfileComponent from "../profile/profile.component";
 
 const ContentWrapper = styled.div`
   & > * {
@@ -21,7 +23,9 @@ export const MainPageWrapper = () => {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
             <img src={"gUlxvTr.png"} style={{ maxWidth: "100vw" }} alt={"meme"} />
           </div>
-          <UserControlPanel />
+          <ControlPanel />
+          <ProfileComponent />
+          <AuthComponent />
           <PriceRecordsComponent />
         </ContentWrapper>
       </Layout.Content>

@@ -16,31 +16,14 @@ export default class AuthComponent extends PureComponent {
   login = async (input: Login.Request.Type) => {
     try {
       await this.context.authStore.authenticate(input);
-      await this.context.profileStore
-        .loadCurrentUserProfile()
-        .catch((err) => console.log("failed to load user profile", err));
+      await this.context.profileStore.loadCurrentUserProfile().catch((err: Error) => {
+        console.log("failed to load user profile", err);
+      });
+      this.toggleLoginForm(false);
     } catch (err) {
       NotificationManager.ShowError(err);
       throw err;
     }
-    this.toggleLoginForm(false);
-  };
-
-  logout = async () => {
-    await this.context.authStore.logout();
-    await this.context.profileStore.clear();
-  };
-
-  register = async (input: CreateUser.Request.Type) => {
-    await this.context.authStore.register(input).catch((err) => {
-      NotificationManager.ShowError(err);
-      throw err;
-    });
-    this.toggleRegisterForm(false);
-  };
-
-  toggleLoginForm = (visible: boolean) => {
-    this.context.authState.setLoginFormVisible(visible);
   };
 
   onLoginFormCreate: TOnFormCreate = async (input, confirm) => {
@@ -53,9 +36,16 @@ export default class AuthComponent extends PureComponent {
     confirm();
   };
 
-  toggleRegisterForm = (visible: boolean) => {
-    console.log("toggleRegisterForm", visible);
-    this.context.authState.setRegisterFormVisible(visible);
+  toggleLoginForm = (visible: boolean) => {
+    this.context.authState.setLoginFormVisible(visible);
+  };
+
+  register = async (input: CreateUser.Request.Type) => {
+    await this.context.authStore.register(input).catch((err: Error) => {
+      NotificationManager.ShowError(err);
+      throw err;
+    });
+    this.toggleRegisterForm(false);
   };
 
   onRegisterFormCreate: TOnFormCreate = async (input, confirm) => {
@@ -69,9 +59,12 @@ export default class AuthComponent extends PureComponent {
     confirm();
   };
 
+  toggleRegisterForm = (visible: boolean) => {
+    this.context.authState.setRegisterFormVisible(visible);
+  };
+
   render() {
     const { loginFormVisible, registerFormVisible } = this.context.authState;
-
     const loginFormProps: ModalFormUIProps = {
       onCreate: this.onLoginFormCreate,
       onCancel: () => this.toggleLoginForm(false),
@@ -83,9 +76,6 @@ export default class AuthComponent extends PureComponent {
 
     return (
       <AuthControlWrapper
-        onLoginButtonClick={() => this.toggleLoginForm(true)}
-        onRegisterButtonClick={() => this.toggleRegisterForm(true)}
-        onLogoutButtonClick={this.logout}
         loginForm={loginFormProps}
         registerForm={registerFormProps}
         loginFormVisible={loginFormVisible}

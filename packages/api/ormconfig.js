@@ -31,7 +31,7 @@ const config = {
   database: process.env.TYPEORM_DATABASE,
   synchronize: process.env.TYPEORM_SYNCHRONIZE,
   logging: process.env.TYPEORM_LOGGING,
-  entities: process.env.ENTITIES,
+  entities: ["dist/**/*.entity.js"],
   seeds: ["dist/seeds/**/*.seed.js"],
   migrations: ["dist/migrations/**/*.js"],
   subscribers: ["dist/subscriber/**/*.js"],

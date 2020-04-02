@@ -11,6 +11,6 @@ export interface PriceRecordsControl {
   onRefreshButtonClick: () => void;
 }
 
-export interface PriceRecordsProps extends PriceRecordsState, PriceRecordsControl {
+export interface PriceRecordsProps extends PriceRecordsState {
   addRecordForm: ModalFormUIProps;
 }

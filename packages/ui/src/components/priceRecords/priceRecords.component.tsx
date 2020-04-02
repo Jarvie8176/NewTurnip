@@ -47,9 +47,13 @@ export default class PriceRecordsComponent extends PureComponent<{}, IPriceRecor
       reportedAt: _.get(input, "reportedAt")?.toISOString(),
     };
     const record = decodeDto(AddPriceRecords.Request.dto, payload);
-    await this.createRecord(record);
-    this.toggleAddRecordForm(false);
-    confirm();
+    try {
+      await this.createRecord(record);
+      this.toggleAddRecordForm(false);
+      confirm();
+    } catch (err) {
+      NotificationManager.ShowError(err);
+    }
   };
 
   onAddRecordFormCancel = (): void => {
@@ -66,12 +70,6 @@ export default class PriceRecordsComponent extends PureComponent<{}, IPriceRecor
       onCancel: this.onAddRecordFormCancel,
     };
 
-    return (
-      <PriceRecordsWrapper
-        onAddRecordsButtonClick={(): void => this.toggleAddRecordForm(true)}
-        onRefreshButtonClick={this.loadData}
-        addRecordForm={addRecordFormProps}
-      />
-    );
+    return <PriceRecordsWrapper addRecordForm={addRecordFormProps} />;
   }
 }

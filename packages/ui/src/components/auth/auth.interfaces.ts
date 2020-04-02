@@ -20,6 +20,6 @@ export interface AuthModalFormControl {
   registerForm: ModalFormUIProps;
 }
 
-export type AuthControlProps = IAuthState & AuthFormControl & AuthModalFormControl;
+export type AuthControlProps = IAuthState & AuthModalFormControl;
 
 export const authTokenStorageLabel = "AUTH_TOKEN";

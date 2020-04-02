@@ -52,4 +52,4 @@ export const ProfileModalForm = observer((props: ModalFormUIProps) => {
   const visible = profileState.profileFormVisible;
   const getFormComponent = (form: FormInstance) => <ProfileModalFormInnerForm form={form} {...props} />;
   return <ModalFormWrapper visible={visible} getFormComponent={getFormComponent} {...props} />;
-} );
+});
