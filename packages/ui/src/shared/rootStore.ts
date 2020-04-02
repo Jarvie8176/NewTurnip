@@ -19,5 +19,5 @@ export const rootStoreContext = createContext(RootStore);
 export const useRootStore = () => useContext(rootStoreContext);
 
 (async () => {
-  await RootStore.authStore.init().catch(console.error);
-})();
+  await RootStore.authStore.init();
+})().catch(console.error);

@@ -17,44 +17,41 @@ const Wrapper = styled.div`
   }
 `;
 
-class Controls implements AuthFormControl, PriceRecordsControl, ProfileControl {
-  constructor(private readonly rootStore: typeof RootStore) {}
+const MakeControls = (rootStore: typeof RootStore): AuthFormControl & PriceRecordsControl & ProfileControl => ({
+  onLoginButtonClick: () => {
+    rootStore.authState.setLoginFormVisible(true);
+  },
+  onLogoutButtonClick: async () => {
+    await rootStore.authStore.logout();
+    await rootStore.profileStore.clear();
+  },
+  onRegisterButtonClick: () => {
+    rootStore.authState.setRegisterFormVisible(true);
+  },
 
-  onLoginButtonClick = () => {
-    this.rootStore.authState.setLoginFormVisible(true);
-  };
-  onLogoutButtonClick = async () => {
-    await this.rootStore.authStore.logout();
-    await this.rootStore.profileStore.clear();
-  };
-  onRegisterButtonClick = () => {
-    this.rootStore.authState.setRegisterFormVisible(true);
-  };
+  onAddRecordsButtonClick: () => {
+    rootStore.priceRecordsState.setAddRecordFormVisible(true);
+  },
 
-  onAddRecordsButtonClick = () => {
-    this.rootStore.priceRecordsState.setAddRecordFormVisible(true);
-  };
+  onRefreshButtonClick: async () => {
+    await rootStore.priceRecordsStore.fetchAll();
+  },
 
-  onRefreshButtonClick = async () => {
-    await this.rootStore.priceRecordsStore.fetchAll();
-  };
-
-  onProfileButtonClick = () => {
-    this.rootStore.profileState.setProfileFormVisible(true);
-  };
-}
+  onProfileButtonClick: () => {
+    rootStore.profileState.setProfileFormVisible(true);
+  },
+});
 
 const Authenticated = styled.div``;
 const UnAuthenticated = styled.div``;
 
 export const ControlPanel = observer(() => {
   const rootStore = useRootStore();
-  const controls = new Controls(rootStore);
+  const controls = MakeControls(rootStore);
 
   const { authenticated } = rootStore.authStore;
 
   const shouldShowWhenAuthenticated = (show: boolean) => {
-    console.log(authenticated, show);
     const shouldShow = (authenticated && show) || (!authenticated && !show);
     return shouldShow ? undefined : "none";
   };

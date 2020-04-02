@@ -24,7 +24,6 @@ const ModalUI = (props: ModalUIProps) => {
   useEffect(() => {
     if (!visible || reloaded) return;
     form.resetFields();
-    console.log("reload form initial values");
     setReloaded(true);
   }, [visible, form, reloaded]);
 
