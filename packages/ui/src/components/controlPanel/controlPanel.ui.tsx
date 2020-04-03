@@ -34,9 +34,15 @@ const MakeControls = (rootStore: typeof RootStore): IControl => ({
     rootStore.profileState.setProfileFormVisible(true);
   },
   onAllPriceRecordsButtonClick: () => {
+    rootStore.priceRecordsState.setActiveGraph("table");
     rootStore.priceRecordsStore.setDataSource("all");
   },
   onPersonalPriceRecordsButtonClick: () => {
+    rootStore.priceRecordsState.setActiveGraph("table");
+    rootStore.priceRecordsStore.setDataSource("personal");
+  },
+  onPersonalPriceRecordsTrendsButtonClick: () => {
+    rootStore.priceRecordsState.setActiveGraph("lineChart");
     rootStore.priceRecordsStore.setDataSource("personal");
   },
 });
@@ -52,7 +58,8 @@ const ButtonContainer = styled.div`
   align-items: center;
 
   Button {
-    margin-left: 1em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
   }
 `;
 
@@ -74,10 +81,15 @@ export const ControlPanel = observer(() => {
     <Fragment>
       <AuthenticationCheck>
         <ButtonContainer>
-          <ButtonUI text={"最新股价"} onClick={controls.onAllPriceRecordsButtonClick} disabled={!shouldShow(true)} />
+          <ButtonUI text={"最新价格"} onClick={controls.onAllPriceRecordsButtonClick} disabled={!shouldShow(true)} />
           <ButtonUI
-            text={"历史股价"}
+            text={"历史价格"}
             onClick={controls.onPersonalPriceRecordsButtonClick}
+            disabled={!shouldShow(true)}
+          />
+          <ButtonUI
+            text={"价格走势"}
+            onClick={controls.onPersonalPriceRecordsTrendsButtonClick}
             disabled={!shouldShow(true)}
           />
           <Tooltip title={"在写了在写了"}>

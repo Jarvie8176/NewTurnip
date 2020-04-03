@@ -44,8 +44,10 @@ const AddRecordModalInnerForm = observer((props: FormUIProps) => {
 });
 
 export const AddRecordModalForm = observer((props: ModalFormUIProps) => {
-  const { profileStore, priceRecordsState } = useRootStore();
-  const confirmLoading = profileStore.confirmLoading;
+  const { priceRecordsStore, priceRecordsState } = useRootStore();
+  const confirmLoading = priceRecordsStore.createRecordLoading;
+
+  console.log(confirmLoading);
 
   const visible = priceRecordsState.addRecordFormVisible;
 

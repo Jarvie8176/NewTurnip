@@ -39,6 +39,8 @@
     "axios": "^0.19.2",
     "bluebird": "^3.7.2",
     "dayjs": "^1.8.23",
+    "highcharts": "^8.0.4",
+    "highcharts-react-official": "^3.0.0",
     "io-ts": "^1.10.4",
     "jwt-decode": "^2.2.0",
     "less": "^3.11.1",

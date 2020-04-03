@@ -28,7 +28,17 @@ const LoginModalFormInnerForm = (props: FormUIProps) => {
 };
 
 export const LoginModalForm = observer((props: ModalFormUIProps) => {
-  const visible = useRootStore().authState.loginFormVisible;
+  const { authStore, authState } = useRootStore();
+  const confirmLoading = authStore.loading;
+  const visible = authState.loginFormVisible;
+
   const getFormComponent = (form: FormInstance) => <LoginModalFormInnerForm form={form} {...props} />;
-  return <ModalFormWrapper visible={visible} getFormComponent={getFormComponent} {...props} />;
+  return (
+    <ModalFormWrapper
+      visible={visible}
+      modalProps={{ confirmLoading }}
+      getFormComponent={getFormComponent}
+      {...props}
+    />
+  );
 });

@@ -48,8 +48,17 @@ const ProfileModalFormInnerForm = (props: FormUIProps) => {
 };
 
 export const ProfileModalForm = observer((props: ModalFormUIProps) => {
-  const { profileState } = useRootStore();
+  const { profileStore, profileState } = useRootStore();
   const visible = profileState.profileFormVisible;
+  const confirmLoading = profileStore.confirmLoading;
+
   const getFormComponent = (form: FormInstance) => <ProfileModalFormInnerForm form={form} {...props} />;
-  return <ModalFormWrapper visible={visible} getFormComponent={getFormComponent} {...props} />;
+  return (
+    <ModalFormWrapper
+      visible={visible}
+      modalProps={{ confirmLoading }}
+      getFormComponent={getFormComponent}
+      {...props}
+    />
+  );
 });

@@ -2,13 +2,16 @@ import { Table } from "antd";
 import _ from "lodash";
 import { observer } from "mobx-react";
 import moment from "moment-timezone";
-import React from "react";
+import React, { Fragment } from "react";
 import { useRootStore } from "../../shared/rootStore";
 import { nextValidTime } from "../../shared/timeOffset.util";
-import { PriceRecordsState } from "./priceRecords.interface";
 
-export const PriceRecordsTable = observer((_props: PriceRecordsState) => {
-  const { priceRecordsStore, profileStore } = useRootStore();
+export const PriceRecordsTable = observer(() => {
+  const { priceRecordsStore, priceRecordsState, profileStore } = useRootStore();
+
+  const visible = priceRecordsState.activeGraph === "table";
+  if (!visible) return <Fragment />;
+
   const priceRecords = priceRecordsStore.priceRecords;
   const localTimeOffsetMinutes =
     Number(profileStore.profileData?.profile.settings.localTimeOffsetMinutes) || moment().utcOffset();

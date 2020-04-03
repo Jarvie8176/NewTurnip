@@ -51,7 +51,17 @@ const RegisterModalFormInnerForm = (props: FormUIProps) => {
 };
 
 export const RegisterModalForm = observer((props: ModalFormUIProps) => {
-  const visible = useRootStore().authState.registerFormVisible;
+  const { authStore, authState } = useRootStore();
+  const confirmLoading = authStore.loading;
+  const visible = authState.registerFormVisible;
+
   const getFormComponent = (form: FormInstance) => <RegisterModalFormInnerForm form={form} {...props} />;
-  return <ModalFormWrapper visible={visible} getFormComponent={getFormComponent} {...props} />;
+  return (
+    <ModalFormWrapper
+      visible={visible}
+      modalProps={{ confirmLoading }}
+      getFormComponent={getFormComponent}
+      {...props}
+    />
+  );
 });

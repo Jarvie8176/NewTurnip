@@ -1,12 +1,13 @@
 import { ModalFormUIProps } from "../common/modalForm.interface";
 
+export type PriceRecordsGraphs = "table" | "lineChart";
+
 export interface IPriceRecordsState {
   addRecordFormVisible: boolean;
+  activeGraph: PriceRecordsGraphs;
 }
 
 export type PriceRecordsDataSourceOptions = "all" | "personal";
-
-export interface PriceRecordsState {}
 
 export interface PriceRecordsControl {
   onAddRecordsButtonClick: () => void;
@@ -16,8 +17,9 @@ export interface PriceRecordsControl {
 export interface PriceRecordsDataSourceControl {
   onAllPriceRecordsButtonClick: () => void;
   onPersonalPriceRecordsButtonClick: () => void;
+  onPersonalPriceRecordsTrendsButtonClick: () => void;
 }
 
-export interface PriceRecordsProps extends PriceRecordsState {
+export interface PriceRecordsProps {
   addRecordForm: ModalFormUIProps;
 }
