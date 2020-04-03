@@ -20,11 +20,11 @@ export const MainPageWrapper = () => {
       <Layout.Header>
         <h2 style={{ color: "#fff" }}>炒萝卜啦！动物森友会</h2>
       </Layout.Header>
+      <div style={{ display: "flex", marginBottom: "1em", alignItems: "center", justifyContent: "center" }}>
+        <img src={"gUlxvTr.png"} style={{ maxWidth: "100vw" }} alt={"meme"} />
+      </div>
       <Layout.Content style={{ maxWidth: "95vw", maxHeight: "95vh" }}>
         <ContentWrapper>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <img src={"gUlxvTr.png"} style={{ maxWidth: "100vw" }} alt={"meme"} />
-          </div>
           <ControlPanel />
           <ProfileComponent />
           <AuthComponent />

@@ -55,7 +55,9 @@ const AuthenticationCheck = styled.div`
 `;
 const ButtonContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
 
   Button {
     margin-left: 0.5em;
