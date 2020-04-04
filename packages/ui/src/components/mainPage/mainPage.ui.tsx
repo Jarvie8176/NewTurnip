@@ -33,7 +33,7 @@ export const MainPageWrapper = () => {
       </Layout.Header>
       <TopImagesContainer>
         <img src={"gUlxvTr.png"} style={{ maxWidth: "100vw" }} alt={"meme"} />
-        <a href={"https://github.com/Jarvie8176/NewTurnip"} target="_blank">
+        <a href={"https://github.com/Jarvie8176/NewTurnip"} target="_blank" rel="noopener noreferrer">
           <img src={"GitHub-Mark-32px.png"} style={{ maxWidth: "100vw" }} alt={"github"} />
         </a>
       </TopImagesContainer>
