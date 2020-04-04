@@ -8,8 +8,6 @@ export namespace ConfigDefinition {
     JWT_EXPIRESIN: string,
     PORT: NumberFromString,
     API_DESCRIPTION: string,
-    RATE_LIMIT_WINDOW_MS: NumberFromString,
-    RATE_LIMIT_MAX_REQ_PER_WINDOW: NumberFromString,
   });
   export type Type = TypeOf<typeof dto>;
 }
