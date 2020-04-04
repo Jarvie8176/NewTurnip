@@ -1,6 +1,7 @@
 import { Layout } from "antd";
 import React, { Fragment } from "react";
 import styled from "styled-components";
+import { Config } from "../../shared/config";
 import AuthComponent from "../auth/auth.component";
 import { ControlPanel } from "../controlPanel/controlPanel.ui";
 import PriceRecordsComponent from "../priceRecords/priceRecords.component";
@@ -18,13 +19,27 @@ const TopImagesContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  max-width: 100vw;
 
   & > * {
     margin-bottom: 1em;
   }
 `;
 
+const Icons = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & > * {
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+`;
+
 export const MainPageWrapper = () => {
+  const slackWorkspaceLink = Config.SLACK_WORKSPACE_LINK;
+
   return (
     <Fragment>
       <SessionControl />
@@ -33,9 +48,14 @@ export const MainPageWrapper = () => {
       </Layout.Header>
       <TopImagesContainer>
         <img src={"gUlxvTr.png"} style={{ maxWidth: "100vw" }} alt={"meme"} />
-        <a href={"https://github.com/Jarvie8176/NewTurnip"} target="_blank" rel="noopener noreferrer">
-          <img src={"GitHub-Mark-32px.png"} style={{ maxWidth: "100vw" }} alt={"github"} />
-        </a>
+        <Icons>
+          <a href={"https://github.com/Jarvie8176/NewTurnip"} target="_blank" rel="noopener noreferrer">
+            <img src={"GitHub-Mark-32px.png"} style={{ width: "32px", height: "100%" }} alt={"github"} />
+          </a>
+          <a href={slackWorkspaceLink} target="_blank" rel="noopener noreferrer">
+            <img src={"slack-32px.png"} style={{ width: "32px", height: "100%" }} alt={"github"} />
+          </a>
+        </Icons>
       </TopImagesContainer>
       <Layout.Content style={{ padding: "2.5vh 2.5vw" }}>
         <ContentWrapper>
