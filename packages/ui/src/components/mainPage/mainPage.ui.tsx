@@ -13,6 +13,17 @@ const ContentWrapper = styled.div`
   }
 `;
 
+const TopImagesContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  & > * {
+    margin-bottom: 1em;
+  }
+`;
+
 export const MainPageWrapper = () => {
   return (
     <Fragment>
@@ -20,10 +31,13 @@ export const MainPageWrapper = () => {
       <Layout.Header>
         <h2 style={{ color: "#fff" }}>炒萝卜啦！动物森友会</h2>
       </Layout.Header>
-      <div style={{ display: "flex", marginBottom: "1em", alignItems: "center", justifyContent: "center" }}>
+      <TopImagesContainer>
         <img src={"gUlxvTr.png"} style={{ maxWidth: "100vw" }} alt={"meme"} />
-      </div>
-      <Layout.Content style={{ maxWidth: "95vw", maxHeight: "95vh" }}>
+        <a href={"https://github.com/Jarvie8176/NewTurnip"} target="_blank">
+          <img src={"GitHub-Mark-32px.png"} style={{ maxWidth: "100vw" }} alt={"github"} />
+        </a>
+      </TopImagesContainer>
+      <Layout.Content style={{ padding: "2.5vh 2.5vw" }}>
         <ContentWrapper>
           <ControlPanel />
           <ProfileComponent />
