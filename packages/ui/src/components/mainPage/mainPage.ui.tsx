@@ -49,6 +49,7 @@ export const MainPageWrapper = () => {
       </Layout.Header>
       <TopImagesContainer>
         <img src={"gUlxvTr.png"} style={{ maxWidth: "100vw" }} alt={"meme"} />
+        <span>改进建议、bug提交、需求讨论、参与开发：</span>
         <Icons>
           <a href={"https://github.com/Jarvie8176/NewTurnip"} target="_blank" rel="noopener noreferrer">
             <img src={"GitHub-Mark-32px.png"} style={{ width: "32px", height: "100%" }} alt={"github"} />
