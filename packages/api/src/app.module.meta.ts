@@ -32,7 +32,12 @@ export const AppModuleMetadata = {
       }),
     }),
 
-    TypeOrmModule.forRoot(),
+    TypeOrmModule.forRoot({
+      extra: {
+        max: 50,
+        min: 1,
+      },
+    }),
     ApiModule,
   ],
 };
