@@ -56,10 +56,10 @@ export const MainPageWrapper = () => {
           <a href={slackWorkspaceLink} target="_blank" rel="noopener noreferrer">
             <img src={"slack-32px.png"} style={{ width: "32px", height: "100%" }} alt={"github"} />
           </a>
-          <a href={qqGroupLink} target="_blank" rel="noopener noreferrer">
-            <img src="qq-group.png" alt="动森大头菜交易所" title="动森大头菜交易所" />
-          </a>
         </Icons>
+        <a href={qqGroupLink} target="_blank" rel="noopener noreferrer">
+          <span>QQ群：773875087</span>
+        </a>
       </TopImagesContainer>
       <Layout.Content style={{ padding: "2.5vh 2.5vw", maxWidth: "100vw" }}>
         <ContentWrapper>
