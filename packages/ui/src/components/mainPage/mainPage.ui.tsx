@@ -39,6 +39,7 @@ const Icons = styled.div`
 
 export const MainPageWrapper = () => {
   const slackWorkspaceLink = Config.SLACK_WORKSPACE_LINK;
+  const qqGroupLink = Config.QQ_GROUP_LINK;
 
   return (
     <Fragment>
@@ -55,9 +56,12 @@ export const MainPageWrapper = () => {
           <a href={slackWorkspaceLink} target="_blank" rel="noopener noreferrer">
             <img src={"slack-32px.png"} style={{ width: "32px", height: "100%" }} alt={"github"} />
           </a>
+          <a href={qqGroupLink} target="_blank" rel="noopener noreferrer">
+            <img src="qq-group.png" alt="动森大头菜交易所" title="动森大头菜交易所" />
+          </a>
         </Icons>
       </TopImagesContainer>
-      <Layout.Content style={{ padding: "2.5vh 2.5vw" }}>
+      <Layout.Content style={{ padding: "2.5vh 2.5vw", maxWidth: "100vw" }}>
         <ContentWrapper>
           <ControlPanel />
           <ProfileComponent />
