@@ -43,7 +43,7 @@
     "start:api:dev": "yarn workspace @turnip-market/api start:dev",
     "start:ui:dev": "yarn workspace @turnip-market/ui start",
     "start:ui:prod": "yarn workspace @turnip-market/ui build && yarn workspace @turnip-market/ui start:prod",
-    "test": "lerna run test",
+    "test": "lerna exec --concurrency 1 -- yarn test",
     "test:coverage": "lerna run test -- --coverage",
     "test:ci": "yarn test:coverage && yarn coverage-compose && cat coverage/lcov.info | node_modules/.bin/coveralls",
     "coverage-compose": "node scripts/coverage-merge && yarn istanbul report --include coverage/coverage-all.json lcov"

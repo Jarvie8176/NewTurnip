@@ -8,7 +8,8 @@
     "prebuild": "yarn clean",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "test": "echo 'no test'"
   },
   "dependencies": {
     "io-ts": "^1.10.4",
