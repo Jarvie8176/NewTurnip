@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { UsersEntity } from "../users/users.entity";
+import { ProfilesEntity } from "../profiles/profiles.entity";
 
 @Entity("priceRecords")
 export class PriceRecordsEntity {
@@ -15,11 +15,11 @@ export class PriceRecordsEntity {
   @Column({ type: "timestamp", nullable: false })
   reportedAt!: Date;
 
-  @ManyToOne(() => UsersEntity, (user) => user.id, {
+  @ManyToOne(() => ProfilesEntity, (user) => user.id, {
     nullable: true,
     onUpdate: "CASCADE",
     onDelete: "SET NULL",
   })
   @JoinColumn()
-  reportedBy?: UsersEntity;
+  reportedBy?: ProfilesEntity;
 }

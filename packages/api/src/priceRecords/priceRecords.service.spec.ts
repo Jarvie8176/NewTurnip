@@ -1,35 +1,45 @@
 import { makeUuid } from "@ansik/sdk/lib/utils";
 import { Test } from "@nestjs/testing";
 import { ISO_8601 } from "moment";
+import { getConnection } from "typeorm";
+import { AuthModule } from "../auth/auth.module";
+import { AuthService } from "../auth/auth.service";
 import { UserProfileSettings } from "../profiles/dtos/userProfiles.dto";
 import { ProfilesModule } from "../profiles/profiles.module";
 import { ProfilesService } from "../profiles/profiles.service";
 import { TestUtilModule } from "../testUtil.module";
-import { UsersModule } from "../users/users.module";
-import { UsersService } from "../users/users.service";
 import { PriceRecordsModule } from "./priceRecords.module";
 import { PriceRecordsService } from "./priceRecords.service";
 import moment = require("moment");
 
 describe("priceRecordsService", () => {
   let priceRecordsService: PriceRecordsService;
-  let usersService: UsersService;
+  let authService: AuthService;
+
   let profilesService: ProfilesService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [UsersModule, PriceRecordsModule, ProfilesModule, TestUtilModule],
+      imports: [AuthModule, PriceRecordsModule, ProfilesModule, TestUtilModule],
     }).compile();
 
     priceRecordsService = moduleRef.get<PriceRecordsService>(PriceRecordsService);
-    usersService = moduleRef.get<UsersService>(UsersService);
+    authService = moduleRef.get<AuthService>(AuthService);
     profilesService = moduleRef.get<ProfilesService>(ProfilesService);
+  });
+
+  afterAll(async () => {
+    await getConnection().close();
   });
 
   describe("addRecord", () => {
     test("if user changes local time, local time offset of existing price records persist", async () => {
       // create user profile
-      const user = await usersService.create({ username: makeUuid(), password: makeUuid(), email: makeUuid() });
+      const user = await authService.createUserProfile({
+        username: makeUuid(),
+        password: makeUuid(),
+        email: makeUuid(),
+      });
       const settings: UserProfileSettings = {
         localTimeOffsetMinutes: null,
         islandName: null,
@@ -58,8 +68,16 @@ describe("priceRecordsService", () => {
   });
   describe("getRecordsByUser", () => {
     test("usage", async () => {
-      const user1 = await usersService.create({ username: makeUuid(), password: makeUuid(), email: makeUuid() });
-      const user2 = await usersService.create({ username: makeUuid(), password: makeUuid(), email: makeUuid() });
+      const user1 = await authService.createUserProfile({
+        username: makeUuid(),
+        password: makeUuid(),
+        email: makeUuid(),
+      });
+      const user2 = await authService.createUserProfile({
+        username: makeUuid(),
+        password: makeUuid(),
+        email: makeUuid(),
+      });
 
       await priceRecordsService.addRecord({
         user: user1,
@@ -103,7 +121,11 @@ describe("priceRecordsService", () => {
       expect(user2Records[1].price).toEqual("300");
     });
     test("returns empty list if no data found", async () => {
-      const user = await usersService.create({ username: makeUuid(), password: makeUuid(), email: makeUuid() });
+      const user = await authService.createUserProfile({
+        username: makeUuid(),
+        password: makeUuid(),
+        email: makeUuid(),
+      });
       const result = await priceRecordsService.getRecordsByUser(user);
       expect(result).toEqual([]);
     });

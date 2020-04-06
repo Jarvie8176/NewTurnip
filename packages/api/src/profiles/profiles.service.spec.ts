@@ -1,6 +1,6 @@
 import { makeUuid } from "@ansik/sdk/lib/utils";
 import { Test } from "@nestjs/testing";
-import { Repository } from "typeorm";
+import { getConnection, Repository } from "typeorm";
 import { TestUtilModule } from "../testUtil.module";
 import { UsersEntity } from "../users/users.entity";
 import { ProfilesEntity } from "./profiles.entity";
@@ -11,17 +11,20 @@ import typeorm = require("typeorm");
 describe("profilesService", () => {
   describe("getByUser()", () => {
     let profilesService: ProfilesService;
-
     let usersRepository: Repository<UsersEntity>;
     let profilesRepository: Repository<ProfilesEntity>;
 
-    beforeEach(async () => {
+    beforeAll(async () => {
       const moduleRef = await Test.createTestingModule({
         imports: [ProfilesModule, TestUtilModule],
       }).compile();
       profilesService = moduleRef.get<ProfilesService>(ProfilesService);
       profilesRepository = typeorm.getRepository(ProfilesEntity);
       usersRepository = typeorm.getRepository(UsersEntity);
+    });
+
+    afterAll(async () => {
+      await getConnection().close();
     });
 
     test("fetches user profile by userId", async () => {

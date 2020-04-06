@@ -14,4 +14,5 @@ module.exports = {
   verbose: true,
   setupFiles: ["<rootDir>/src/init.ts"],
   coverageDirectory: "<rootDir>/coverage",
+  coverageReporters: ["json"],
 };

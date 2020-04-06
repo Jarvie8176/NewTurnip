@@ -11,6 +11,7 @@
     "start": "react-app-rewired start",
     "start:prod": "serve -s build",
     "test": "react-app-rewired test --watchAll=false",
+    "test:cov": "yarn test --coverage",
     "test:watch": "react-app-rewired test"
   },
   "browserslist": {
@@ -78,7 +79,7 @@
     "css-loader": "^3.4.2",
     "customize-cra": "^0.9.1",
     "eslint-plugin-react-hooks": "^3.0.0",
-    "jest": "^24.9.0",
+    "jest": "24.9.0",
     "less-loader": "^5.0.0",
     "prop-types": "^15.7.2",
     "react-app-rewired": "^2.1.5",

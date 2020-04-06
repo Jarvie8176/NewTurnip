@@ -1,9 +1,8 @@
-import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { BadRequestException, Injectable, InternalServerErrorException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { AddPriceRecords } from "@turnip-market/dtos";
 import { Repository, SelectQueryBuilder } from "typeorm";
 import { ProfilesEntity } from "../profiles/profiles.entity";
-import { UsersEntity } from "../users/users.entity";
 import { ValidatedUser } from "../users/users.interface";
 import { NullOrValue } from "../utils/nullCast";
 import { PriceRecordsDto } from "./dtos/priceRecords.dto";
@@ -41,8 +40,7 @@ export class PriceRecordsService {
           .getQuery();
         return `priceRecords.id IN ${subQuery}`;
       })
-      .leftJoinAndSelect("priceRecords.reportedBy", "users")
-      .leftJoinAndSelect("users.profile", "profiles")
+      .leftJoinAndSelect("priceRecords.reportedBy", "profiles")
       .orderBy({ "priceRecords.reportedAt": "DESC" });
     queryModifier?.(query);
     const records = await query.getMany();
@@ -52,7 +50,8 @@ export class PriceRecordsService {
   async getRecordsByUser(user: ValidatedUser.Type): Promise<PriceRecordsDto[]> {
     return await this.getRecords({
       recordLimit: PriceRecordsService.MAX_RECORD_LIMIT,
-      queryModifier: (queryBuilder) => queryBuilder.where("users.id = :userId", { userId: user.id }),
+      queryModifier: (queryBuilder) =>
+        queryBuilder.leftJoinAndSelect("profiles.user", "user").where("user.id = :userId", { userId: user.id }),
     });
   }
 
@@ -73,11 +72,10 @@ export class PriceRecordsService {
       .where("users.id = :userId", { userId: user.id })
       .getOne();
 
-    const userEntity = userProfile ? userProfile.user : ({ id: user.id } as UsersEntity);
-
+    if (!userProfile) throw new BadRequestException("user does not have a profile");
     const newPriceRecord = new PriceRecordsEntity();
     newPriceRecord.price = price;
-    newPriceRecord.reportedBy = userEntity;
+    newPriceRecord.reportedBy = userProfile;
     newPriceRecord.localTimeOffsetMinutes = userProfile?.settings.localTimeOffsetMinutes || undefined;
     const reportedAtTimestamp = moment(reportedAt, moment.ISO_8601);
     if (!reportedAtTimestamp.isValid()) throw new Error("invalid reportedAt");
@@ -87,8 +85,7 @@ export class PriceRecordsService {
 
     const item = await this.priceRecordsRepository
       .createQueryBuilder("priceRecords")
-      .leftJoinAndSelect("priceRecords.reportedBy", "users")
-      .leftJoinAndSelect("users.profile", "profiles")
+      .leftJoinAndSelect("priceRecords.reportedBy", "profiles")
       .where("priceRecords.id = :id", { id: newPriceRecord.id })
       .getOne();
 
@@ -99,9 +96,9 @@ export class PriceRecordsService {
 
   private static PriceRecordsEntityToDto(priceRecordsEntity: PriceRecordsEntity): PriceRecordsDto {
     const { id, reportedBy, price, localTimeOffsetMinutes, reportedAt } = priceRecordsEntity;
-    const playerName = reportedBy?.profile?.settings.playerName || "";
-    const islandName = reportedBy?.profile?.settings.islandName || "";
-    const { swCode } = priceRecordsEntity.reportedBy?.profile?.settings || {};
+    const playerName = reportedBy?.settings.playerName || "";
+    const islandName = reportedBy?.settings.islandName || "";
+    const { swCode } = priceRecordsEntity.reportedBy?.settings || {};
     return {
       id,
       price,

@@ -4,6 +4,7 @@ import { PassportModule } from "@nestjs/passport";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { TypedConfigModule } from "../config/typed-config.module";
 import { TypedConfigService } from "../config/typed-config.service";
+import { ProfilesModule } from "../profiles/profiles.module";
 import { UsersEntity } from "../users/users.entity";
 import { UsersModule } from "../users/users.module";
 import { AuthController } from "./auth.controller";
@@ -16,6 +17,7 @@ import { LocalAuthStrategy } from "./local-auth.strategy";
     TypeOrmModule.forFeature([UsersEntity]),
     UsersModule,
     PassportModule,
+    ProfilesModule,
     TypedConfigModule,
     JwtModule.registerAsync({
       imports: [TypedConfigModule],

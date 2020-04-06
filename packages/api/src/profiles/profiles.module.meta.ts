@@ -9,4 +9,5 @@ export const ProfilesModuleMetadata: ModuleMetadata = {
   imports: [TypeOrmModule.forFeature([UsersEntity, ProfilesEntity])],
   providers: [ProfilesService],
   controllers: [ProfilesController],
+  exports: [ProfilesService],
 };
