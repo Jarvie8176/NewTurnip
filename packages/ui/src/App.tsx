@@ -1,9 +1,9 @@
 import React from "react";
-
 import ReactGA from "react-ga";
 import { Helmet } from "react-helmet";
 import "./App.less";
-import { MainPageComponent } from "./components/mainPage/mainPage.component";
+import { Routes } from "./components/router/router.component";
+import { SessionControl } from "./components/session/session.component";
 import { Config } from "./shared/config";
 
 function App() {
@@ -15,7 +15,8 @@ function App() {
       <Helmet>
         <title>{Config.APP_TITLE}</title>
       </Helmet>
-      <MainPageComponent />
+      <Routes />
+      <SessionControl />
     </div>
   );
 }

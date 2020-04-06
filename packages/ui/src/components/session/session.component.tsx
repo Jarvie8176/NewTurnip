@@ -1,20 +1,28 @@
 import { observer } from "mobx-react";
 import React, { useEffect } from "react";
 import { useRootStore } from "../../shared/rootStore";
+import NotificationManager from "../notification/notificationManager";
 
 export const SessionControl = observer(() => {
-  const { authStore, dataProviderStore } = useRootStore();
+  const { authStore, profileStore, dataProviderStore } = useRootStore();
   const { shouldEndSession } = dataProviderStore;
-  console.log(shouldEndSession);
 
   useEffect(() => {
     (async () => {
-      if (dataProviderStore.shouldEndSession) {
-        await authStore.logout();
-        dataProviderStore.setShouldEndSession(false);
-      }
-    })();
-  });
+      await authStore.init();
+      if (!authStore.authenticated) return;
+      await profileStore.loadCurrentUserProfile();
+    })().catch(NotificationManager.ShowError);
+  }, [authStore, profileStore]);
+
+  useEffect(() => {
+    (async () => {
+      if (!shouldEndSession) return;
+
+      await authStore.logout();
+      dataProviderStore.setShouldEndSession(false);
+    })().catch(NotificationManager.ShowError);
+  }, [shouldEndSession, authStore, dataProviderStore]);
 
   return <div />;
 });

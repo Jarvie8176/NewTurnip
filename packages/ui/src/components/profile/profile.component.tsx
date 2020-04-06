@@ -14,12 +14,6 @@ export default class ProfileComponent extends PureComponent {
   static contextType = rootStoreContext;
   context!: React.ContextType<typeof rootStoreContext>;
 
-  componentDidMount(): void {
-    (async () => {
-      await this.context.profileStore.loadCurrentUserProfile();
-    })().catch(console.error);
-  }
-
   toggleProfileForm(visible: boolean): void {
     this.context.profileState.setProfileFormVisible(visible);
   }
