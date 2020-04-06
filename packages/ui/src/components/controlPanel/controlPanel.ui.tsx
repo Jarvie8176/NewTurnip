@@ -128,17 +128,16 @@ export const ControlPanel = observer(() => {
             disabled={!shouldShow(true)}
           />
           <Tooltip title={"在写了在写了"}>
-            <ButtonUI text={"股价预测"} disabled={!shouldShow(true)} />
+            <ButtonUI text={"股价预测"} disabled={true} />
           </Tooltip>
         </ButtonContainer>
         <ButtonContainer>
-          <ButtonUI text={"排队上岛"} onClick={controls.onCreateRoomButtonClick} disabled={!shouldShow(true)} />
-          <ButtonUI
-            linkTo={"/rooms"}
-            text={"我的排队"}
-            onClick={controls.onWaitingRoomButtonClick}
-            disabled={!shouldShow(true)}
-          />
+          <Tooltip title={"在写了在写了"}>
+            <ButtonUI text={"排队上岛"} onClick={controls.onCreateRoomButtonClick} disabled={true} />
+          </Tooltip>
+          <Tooltip title={"在写了在写了"}>
+            <ButtonUI linkTo={"/rooms"} text={"我的排队"} onClick={controls.onWaitingRoomButtonClick} disabled={true} />
+          </Tooltip>
         </ButtonContainer>
       </AuthenticationCheck>
       <AuthenticationCheck style={{ display: DisplayWhenAuthenticated(true) }}>
