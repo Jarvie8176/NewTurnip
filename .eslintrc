@@ -19,6 +19,7 @@
   },
   "rules": {
     //    "@typescript-eslint/explicit-function-return-type": ["warn", { "allowTypedFunctionExpressions": true }],
+    "linebreak-style": ["error", "unix"],
     "@typescript-eslint/indent": ["warn", 2],
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-namespace": "off",

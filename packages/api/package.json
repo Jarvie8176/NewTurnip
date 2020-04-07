@@ -10,7 +10,7 @@
     "start:debug": "NODE_ENV=development nest start --debug --watch",
     "start:dev": "NODE_ENV=development nest start --watch",
     "start:prod": "NODE_ENV=production node dist/main",
-    "test": "jest --runInBand",
+    "test": "yarn build && NODE_ENV=test jest --runInBand",
     "test:cov": "yarn test --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:watch": "yarn test --watch"
@@ -46,7 +46,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
     "swagger-ui-express": "^4.1.4",
-    "typeorm": "^0.2.24"
+    "typeorm": "0.2.22"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.2",
