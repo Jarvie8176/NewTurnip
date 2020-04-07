@@ -5,6 +5,4 @@ node_js:
 script:
   - yarn lint
   - yarn build
-
-after_success:
   - yarn test:ci
