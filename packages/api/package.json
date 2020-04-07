@@ -10,25 +10,10 @@
     "start:debug": "NODE_ENV=development nest start --debug --watch",
     "start:dev": "NODE_ENV=development nest start --watch",
     "start:prod": "NODE_ENV=production node dist/main",
-    "test": "NODE_ENV=test jest --runInBand",
+    "test": "jest --runInBand",
     "test:cov": "yarn test --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "yarn test --config ./test/jest-e2e.json",
     "test:watch": "yarn test --watch"
-  },
-  "jest": {
-    "coverageDirectory": "../coverage",
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testEnvironment": "node",
-    "testRegex": ".spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    }
   },
   "dependencies": {
     "@ansik/sdk": "^0.1.14",

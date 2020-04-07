@@ -15,7 +15,7 @@ export class PriceRecordsEntity {
   @Column({ type: "timestamp", nullable: false })
   reportedAt!: Date;
 
-  @ManyToOne(() => ProfilesEntity, (user) => user.id, {
+  @ManyToOne(() => ProfilesEntity, (profile) => profile.id, {
     nullable: true,
     onUpdate: "CASCADE",
     onDelete: "SET NULL",
