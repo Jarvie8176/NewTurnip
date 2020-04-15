@@ -9,5 +9,6 @@ import { PriceRecordsService } from "./priceRecords.service";
   imports: [TypeOrmModule.forFeature([PriceRecordsEntity, ProfilesEntity])],
   controllers: [PriceRecordsController],
   providers: [PriceRecordsService],
+  exports: [PriceRecordsService],
 })
 export class PriceRecordsModule {}

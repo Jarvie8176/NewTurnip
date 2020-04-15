@@ -1,9 +1,10 @@
 import { Column, Entity, Index, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ProfilesEntity } from "../profiles/profiles.entity";
 import { EntityEnums } from "../utils/enums";
+import { TimestampedEntity } from "../utils/timestampedEntity";
 
 @Entity("users")
-export class UsersEntity {
+export class UsersEntity extends TimestampedEntity {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 

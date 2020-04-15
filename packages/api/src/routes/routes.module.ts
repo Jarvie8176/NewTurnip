@@ -4,6 +4,7 @@ import { ApiModule } from "../api.module";
 import { AuthModule } from "../auth/auth.module";
 import { PriceRecordsModule } from "../priceRecords/priceRecords.module";
 import { ProfilesModule } from "../profiles/profiles.module";
+import { RoomModule } from "../room/room.module";
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path: "/profiles",
         module: ProfilesModule,
+      },
+      {
+        path: "/rooms",
+        module: RoomModule,
       },
     ],
   },
