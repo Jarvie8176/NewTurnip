@@ -15,32 +15,40 @@ API docs: https://kabu.wiarlawd.me/api/docs
 * set up a postgres db, if you don't have one
 * create a database
 * create uuid extension:
-```sql
+
+```postgresql
 create extension if not exists "uuid-ossp";
 ```
 
 * install packages
 
-```shell
+```shell script 
 yarn install
+```
+
+* update `.env` file in `packages/api` (template is `.env.example`)
+
+* start services
+```shell script
 yarn start:api:dev
 yarn start:ui:dev
 ```
 
+
 ## With Docker
-```shell
+```shell script
 docker build -t turnip-market .
 docker-compose up
 ```
 
 # Test
 
-```shell
+```shell script
 yarn test
 ```
 
 # Test An Individual Module
-```shell
+```shell script
 yarn workspace @turnip-market/api test
 yarn workspace @turnip-market/ui test
 ```
