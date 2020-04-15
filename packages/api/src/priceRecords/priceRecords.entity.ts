@@ -1,8 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ProfilesEntity } from "../profiles/profiles.entity";
+import { TimestampedEntity } from "../utils/timestampedEntity";
 
 @Entity("priceRecords")
-export class PriceRecordsEntity {
+export class PriceRecordsEntity extends TimestampedEntity {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
