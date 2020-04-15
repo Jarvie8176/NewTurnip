@@ -3,13 +3,15 @@ import { GetPriceRecords } from "@turnip-market/dtos";
 import { action, computed, observable, runInAction } from "mobx";
 import { DataProvider } from "../../shared/dataProvider";
 import NotificationManager from "../notification/notificationManager";
-import { PriceRecordsDataSourceOptions } from "./priceRecords.interface";
-import { CreatePriceRecordDto, PriceRecordsTableDto } from "./priceRecordsTable.dto";
+import { EditPriceRecordDefaultValues, PriceRecordsDataSourceOptions } from "./priceRecords.interface";
+import { CreatePriceRecordDto, EditPriceRecordDto, PriceRecordsTableDto } from "./priceRecordsTable.dto";
 
 export class PriceRecordsStore {
   @observable priceRecordsData?: PriceRecordsTableDto;
+  @observable editPriceRecordDefaultValues?: EditPriceRecordDefaultValues;
   @observable dataLoading = false;
   @observable createRecordLoading = false;
+  @observable editRecordLoading = false;
   @observable dataSource: PriceRecordsDataSourceOptions = "all";
 
   @computed
@@ -45,6 +47,19 @@ export class PriceRecordsStore {
     } finally {
       runInAction(() => (this.createRecordLoading = false));
     }
+  }
+
+  @action async updateRecord(priceRecordId: string, dto: EditPriceRecordDto): Promise<void> {
+    try {
+      runInAction(() => (this.editRecordLoading = true));
+      await DataProvider.sendRequest((dataProvider) => dataProvider.patch(`priceRecords/${priceRecordId}`, dto));
+    } finally {
+      runInAction(() => (this.editRecordLoading = false));
+    }
+  }
+
+  @action updateEditFormDefaultValues(defaultValues: EditPriceRecordDefaultValues): void {
+    this.editPriceRecordDefaultValues = defaultValues;
   }
 
   @action setDataSource(dataSource: PriceRecordsDataSourceOptions): void {

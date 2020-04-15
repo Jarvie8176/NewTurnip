@@ -24,6 +24,7 @@ export const GetDefaultTranslations = (): TranslationStrings => ({
       price: "price_label",
       localTimeWhenRecorded: "localTimeWhenRecorded_label",
       validUntil: "validUntil_label",
+      edit: "edit_label",
     },
     expired: "expired_label",
   },
@@ -34,7 +35,7 @@ export const GetDefaultTranslations = (): TranslationStrings => ({
   addPriceRecordForm: {
     playerName: "playerName_label",
     islandName: "islandName_label",
-    fcCode: "fcCode_label",
+    swCode: "swCode_label",
     price: "price_label",
     recordTime: "recordTime_label",
     inputFieldPlaceholder: `Please update in "settings"`,
@@ -43,7 +44,7 @@ export const GetDefaultTranslations = (): TranslationStrings => ({
     playerName: "playerName_label",
     islandName: "islandName_label",
     currentTime: "currentTime_label",
-    fcCode: "fcCode_label",
+    swCode: "swCode_label",
     dodoCode: "dodoCode_label",
   },
 });

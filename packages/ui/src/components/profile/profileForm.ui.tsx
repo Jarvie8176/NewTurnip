@@ -40,7 +40,7 @@ const ProfileModalFormInnerForm = (props: FormUIProps) => {
       <Form.Item label={t("profilesForm.currentTime")} name="localTimestamp" rules={[]}>
         <DatePicker style={{ width: "100%" }} showTime format={"YYYY-MM-DD hh:mm A"} />
       </Form.Item>
-      <Form.Item label={t("profilesForm.fcCode")} name="swCode" rules={[]}>
+      <Form.Item label={t("profilesForm.swCode")} name="swCode" rules={[]}>
         <SWCodeInput />
       </Form.Item>
       <Form.Item label={t("profilesForm.dodoCode")} name="dodoCode" rules={[]}>

@@ -1,4 +1,5 @@
 import { makeUuid } from "@ansik/sdk/lib/utils";
+import { NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { ISO_8601 } from "moment";
 import { getConnection } from "typeorm";
@@ -53,7 +54,7 @@ describe("priceRecordsService", () => {
       });
       await priceRecordsService.addRecord({
         user,
-        input: { playerName: "", islandName: "", swCode: "", price: "100", reportedAt: new Date().toISOString() },
+        payload: { price: "100", reportedAt: new Date().toISOString() },
       });
       const priceRecordsBeforeChange = await priceRecordsService.getAllRecords();
       expect(priceRecordsBeforeChange[0].timeOffsetInMinutes).toEqual("120");
@@ -64,6 +65,74 @@ describe("priceRecordsService", () => {
       });
       const priceRecordsAfterChange = await priceRecordsService.getAllRecords();
       expect(priceRecordsAfterChange[0].timeOffsetInMinutes).toEqual("120");
+    });
+  });
+  describe("updateRecord", () => {
+    test("usage", async () => {
+      const user = await authService.createUserProfile({
+        username: makeUuid(),
+        password: makeUuid(),
+        email: makeUuid(),
+      });
+      const settings: UserProfileSettings = {
+        localTimeOffsetMinutes: null,
+        islandName: null,
+        dodoCode: null,
+        playerName: null,
+        swCode: null,
+      };
+      await profilesService.replaceUserProfile(user, settings);
+
+      const priceRecord = await priceRecordsService.addRecord({
+        user,
+        payload: { price: "100", reportedAt: new Date(2020, 1, 1).toISOString() },
+      });
+
+      const result = await priceRecordsService.updateRecord({
+        priceRecordId: priceRecord.id,
+        user,
+        payload: { price: "120", reportedAt: new Date(2020, 1, 2).toISOString() },
+      });
+
+      expect(result).toEqual({
+        ...priceRecord,
+        price: "120",
+        reportedAt: new Date(2020, 1, 2),
+      });
+    });
+    test("record does not exist", async () => {
+      const user = await authService.createUserProfile({
+        username: makeUuid(),
+        password: makeUuid(),
+        email: makeUuid(),
+      });
+
+      await expect(
+        priceRecordsService.updateRecord({
+          priceRecordId: makeUuid(),
+          user,
+          payload: { price: "120", reportedAt: new Date().toISOString() },
+        })
+      ).rejects.toThrowError(NotFoundException);
+    });
+
+    test("update other user's record", async () => {
+      const user = await authService.createUserProfile({
+        username: makeUuid(),
+        password: makeUuid(),
+        email: makeUuid(),
+      });
+      const priceRecord = await priceRecordsService.addRecord({
+        user,
+        payload: { price: "100", reportedAt: new Date(2020, 1, 1).toISOString() },
+      });
+      await expect(
+        priceRecordsService.updateRecord({
+          user: { id: makeUuid() },
+          priceRecordId: priceRecord.id,
+          payload: { price: "120", reportedAt: new Date().toISOString() },
+        })
+      ).rejects.toThrowError(UnauthorizedException);
     });
   });
   describe("getRecordsByUser", () => {
@@ -81,30 +150,21 @@ describe("priceRecordsService", () => {
 
       await priceRecordsService.addRecord({
         user: user1,
-        input: {
-          playerName: "",
-          islandName: "",
-          swCode: "",
+        payload: {
           price: "100",
           reportedAt: moment("2000-01-01T00:00:00Z", ISO_8601).toISOString(),
         },
       });
       await priceRecordsService.addRecord({
         user: user2,
-        input: {
-          playerName: "",
-          islandName: "",
-          swCode: "",
+        payload: {
           price: "300",
           reportedAt: moment("2000-01-01T00:00:00Z", ISO_8601).toISOString(),
         },
       });
       await priceRecordsService.addRecord({
         user: user2,
-        input: {
-          playerName: "",
-          islandName: "",
-          swCode: "",
+        payload: {
           price: "200",
           reportedAt: moment("2000-01-02T00:00:00Z", ISO_8601).toISOString(),
         },

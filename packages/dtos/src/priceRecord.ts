@@ -26,9 +26,24 @@ export namespace GetPriceRecords {
 export namespace AddPriceRecords {
   export namespace Request {
     export const dto = t.interface({
-      playerName: string,
-      islandName: string,
-      swCode: t.union([string, nullType]),
+      price: string,
+      reportedAt: string,
+    });
+    export type Type = TypeOf<typeof dto>;
+  }
+  export namespace Response {
+    export const dto = t.interface({
+      data: t.interface({
+        priceRecord: getPriceRecordDto,
+      }),
+    });
+    export type Type = TypeOf<typeof dto>;
+  }
+}
+
+export namespace UpdatePriceRecords {
+  export namespace Request {
+    export const dto = t.interface({
       price: string,
       reportedAt: string,
     });

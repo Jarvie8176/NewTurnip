@@ -1,6 +1,7 @@
+import { Moment } from "moment-timezone/moment-timezone";
 import { ModalFormUIProps } from "../common/modalForm.interface";
 
-export type PriceRecordsGraphs = "table" | "lineChart";
+export type PriceRecordsGraphs = "latest" | "history" | "lineChart";
 
 export interface IPriceRecordsState {
   addRecordFormVisible: boolean;
@@ -20,6 +21,21 @@ export interface PriceRecordsDataSourceControl {
   onPersonalPriceRecordsTrendsButtonClick: () => void;
 }
 
+export interface EditPriceRecordDefaultValues {
+  id?: string;
+  playerName?: string;
+  islandName?: string;
+  swCode?: string;
+  price?: string;
+  reportedAt?: Moment;
+}
+
 export interface PriceRecordsProps {
   addRecordForm: ModalFormUIProps;
+  editRecordForm: ModalFormUIProps;
+  historyRecordsTable: PriceRecordsHistoryTableProps;
+}
+
+export interface PriceRecordsHistoryTableProps {
+  onEditButtonClick: () => void;
 }

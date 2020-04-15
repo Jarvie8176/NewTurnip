@@ -1,6 +1,12 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { AddPriceRecords } from "@turnip-market/dtos";
+import { AddPriceRecords, UpdatePriceRecords } from "@turnip-market/dtos";
 import { Repository, SelectQueryBuilder } from "typeorm";
 import { ProfilesEntity } from "../profiles/profiles.entity";
 import { ValidatedUser } from "../users/users.interface";
@@ -30,6 +36,7 @@ export class PriceRecordsService {
     const { recordLimit, queryModifier } = options;
     const query = this.priceRecordsRepository
       .createQueryBuilder("priceRecords")
+      .leftJoinAndSelect("priceRecords.reportedBy", "profiles")
       .where((qb) => {
         const subQuery = qb
           .subQuery()
@@ -40,7 +47,6 @@ export class PriceRecordsService {
           .getQuery();
         return `priceRecords.id IN ${subQuery}`;
       })
-      .leftJoinAndSelect("priceRecords.reportedBy", "profiles")
       .orderBy({ "priceRecords.reportedAt": "DESC" });
     queryModifier?.(query);
     const records = await query.getMany();
@@ -59,12 +65,23 @@ export class PriceRecordsService {
     return await this.getRecords({ recordLimit: PriceRecordsService.MAX_RECORD_LIMIT });
   }
 
+  private async getRecordById(priceRecordId: string): Promise<PriceRecordsDto> {
+    const priceRecord = await this.priceRecordsRepository
+      .createQueryBuilder("priceRecords")
+      .leftJoinAndSelect("priceRecords.reportedBy", "profiles")
+      .where("priceRecords.id = :id", { id: priceRecordId })
+      .getOne();
+
+    if (!priceRecord) throw new NotFoundException("price record does not exist");
+    return PriceRecordsService.PriceRecordsEntityToDto(priceRecord);
+  }
+
   async addRecord(options: {
-    input: AddPriceRecords.Request.Type;
+    payload: AddPriceRecords.Request.Type;
     user: ValidatedUser.Type;
   }): Promise<PriceRecordsDto> {
-    const { input, user } = options;
-    const { price, reportedAt } = input;
+    const { payload, user } = options;
+    const { price, reportedAt } = payload;
 
     const userProfile = await this.profilesRepository
       .createQueryBuilder("profiles")
@@ -92,6 +109,34 @@ export class PriceRecordsService {
     if (!item) throw new InternalServerErrorException();
 
     return PriceRecordsService.PriceRecordsEntityToDto(item);
+  }
+
+  async updateRecord(options: {
+    priceRecordId: string;
+    payload: UpdatePriceRecords.Request.Type;
+    user: ValidatedUser.Type;
+  }): Promise<PriceRecordsDto> {
+    const { priceRecordId, user, payload } = options;
+    const existingRecord = await this.priceRecordsRepository
+      .createQueryBuilder("priceRecords")
+      .leftJoinAndSelect("priceRecords.reportedBy", "profiles")
+      .leftJoinAndSelect("profiles.user", "user")
+      .where("priceRecords.id = :id", { id: priceRecordId })
+      .getOne();
+
+    if (!existingRecord) throw new NotFoundException("price record not found");
+
+    const userId = existingRecord?.reportedBy?.user?.id;
+    if (userId !== user.id) throw new UnauthorizedException("can only update own records");
+
+    await this.priceRecordsRepository
+      .createQueryBuilder()
+      .update()
+      .set(payload)
+      .where("id = :id", { id: priceRecordId })
+      .execute();
+
+    return await this.getRecordById(priceRecordId);
   }
 
   private static PriceRecordsEntityToDto(priceRecordsEntity: PriceRecordsEntity): PriceRecordsDto {

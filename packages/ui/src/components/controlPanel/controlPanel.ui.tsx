@@ -35,11 +35,11 @@ const MakeControls = (rootStore: typeof RootStore): IControl => ({
     rootStore.profileState.setProfileFormVisible(true);
   },
   onAllPriceRecordsButtonClick: () => {
-    rootStore.priceRecordsState.setActiveGraph("table");
+    rootStore.priceRecordsState.setActiveGraph("latest");
     rootStore.priceRecordsStore.setDataSource("all");
   },
   onPersonalPriceRecordsButtonClick: () => {
-    rootStore.priceRecordsState.setActiveGraph("table");
+    rootStore.priceRecordsState.setActiveGraph("history");
     rootStore.priceRecordsStore.setDataSource("personal");
   },
   onPersonalPriceRecordsTrendsButtonClick: () => {

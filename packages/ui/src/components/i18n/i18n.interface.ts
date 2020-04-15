@@ -22,6 +22,7 @@ export interface TranslationStrings {
       price: string;
       localTimeWhenRecorded: string;
       validUntil: string;
+      edit: string;
     };
     expired: string;
   };
@@ -32,7 +33,7 @@ export interface TranslationStrings {
   addPriceRecordForm: {
     playerName: string;
     islandName: string;
-    fcCode: string;
+    swCode: string;
     price: string;
     recordTime: string;
     inputFieldPlaceholder: string;
@@ -41,7 +42,7 @@ export interface TranslationStrings {
     playerName: string;
     islandName: string;
     currentTime: string;
-    fcCode: string;
+    swCode: string;
     dodoCode: string;
   };
 }
