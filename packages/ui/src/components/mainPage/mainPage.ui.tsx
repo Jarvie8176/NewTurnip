@@ -1,5 +1,6 @@
 import { Layout } from "antd";
 import React, { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { Config } from "../../shared/config";
 import AuthComponent from "../auth/auth.component";
@@ -20,6 +21,7 @@ const TopImagesContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   max-width: 100vw;
+  margin-top: 1em;
 
   & > * {
     margin-bottom: 1em;
@@ -39,17 +41,17 @@ const Icons = styled.div`
 
 export const MainPageWrapper = () => {
   const slackWorkspaceLink = Config.SLACK_WORKSPACE_LINK;
-  const qqGroupLink = Config.QQ_GROUP_LINK;
+
+  const { t } = useTranslation();
 
   return (
     <Fragment>
       <SessionControl />
       <Layout.Header>
-        <h2 style={{ color: "#fff" }}>炒萝卜啦！动物森友会</h2>
+        <h2 style={{ color: "#fff" }}>{t("title")}</h2>
       </Layout.Header>
       <TopImagesContainer>
-        <img src={"gUlxvTr.png"} style={{ maxWidth: "100vw" }} alt={"meme"} />
-        <span>改进建议、bug提交、需求讨论、参与开发：</span>
+        <span>{t("introMessage")}</span>
         <Icons>
           <a href={"https://github.com/Jarvie8176/NewTurnip"} target="_blank" rel="noopener noreferrer">
             <img src={"GitHub-Mark-32px.png"} style={{ width: "32px", height: "100%" }} alt={"github"} />
@@ -58,9 +60,6 @@ export const MainPageWrapper = () => {
             <img src={"slack-32px.png"} style={{ width: "32px", height: "100%" }} alt={"github"} />
           </a>
         </Icons>
-        <a href={qqGroupLink} target="_blank" rel="noopener noreferrer">
-          <span>QQ群：773875087</span>
-        </a>
       </TopImagesContainer>
       <Layout.Content style={{ padding: "2.5vh 2.5vw", maxWidth: "100vw" }}>
         <ContentWrapper>

@@ -3,11 +3,13 @@ import _ from "lodash";
 import { observer } from "mobx-react";
 import moment from "moment-timezone";
 import React, { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 import { useRootStore } from "../../shared/rootStore";
 import { nextValidTime } from "../../shared/timeOffset.util";
 
 export const PriceRecordsTable = observer(() => {
   const { priceRecordsStore, priceRecordsState, profileStore } = useRootStore();
+  const { t } = useTranslation();
 
   const visible = priceRecordsState.activeGraph === "table";
   if (!visible) return <Fragment />;
@@ -17,12 +19,12 @@ export const PriceRecordsTable = observer(() => {
     Number(profileStore.profileData?.profile.settings.localTimeOffsetMinutes) || moment().utcOffset();
 
   const columns = [
-    { title: "岛主", dataIndex: "playerName" },
-    { title: "岛名", dataIndex: "islandName" },
-    { title: "联系方式", dataIndex: "swCode" },
-    { title: "报价", dataIndex: "price" },
-    { title: "记录时间(当地)", dataIndex: "reportedAtTimestamp" },
-    { title: "有效时间", dataIndex: "remainingValidTime" },
+    { title: t("priceRecordsTable.columns.playerName"), dataIndex: "playerName" },
+    { title: t("priceRecordsTable.columns.islandName"), dataIndex: "islandName" },
+    { title: t("priceRecordsTable.columns.contactInfo"), dataIndex: "swCode" },
+    { title: t("priceRecordsTable.columns.price"), dataIndex: "price" },
+    { title: t("priceRecordsTable.columns.localTimeWhenRecorded"), dataIndex: "reportedAtTimestamp" },
+    { title: t("priceRecordsTable.columns.validUntil"), dataIndex: "remainingValidTime" },
   ];
   const parsedData = _.map(priceRecords, (item) => {
     const reportedAtTimestamp = moment(item.reportedAt, moment.ISO_8601);
@@ -33,7 +35,7 @@ export const PriceRecordsTable = observer(() => {
       ...item,
       reportedAtTimestamp: reportedAtTimestamp.format("MM-DD HH:mm"),
       reportedAtLocalTimestamp,
-      remainingValidTime: validUntilNotExpired ? validUntilTimestamp?.fromNow() : "过期",
+      remainingValidTime: validUntilNotExpired ? validUntilTimestamp?.fromNow() : t("priceRecordsTable.expired"),
     };
   });
 

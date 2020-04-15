@@ -3,6 +3,7 @@ import { FormInstance } from "antd/lib/form";
 import { observer } from "mobx-react";
 import moment from "moment-timezone";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useRootStore } from "../../shared/rootStore";
 import { FormUIProps, ModalFormUIProps } from "../common/modalForm.interface";
 import { FormUI, ModalFormWrapper } from "../common/modalForm.ui";
@@ -13,6 +14,8 @@ const ProfileModalFormInnerForm = (props: FormUIProps) => {
 
   const { profileStore } = useRootStore();
   const { profileData } = profileStore;
+
+  const { t } = useTranslation();
 
   const localTimeOffsetMinutes = profileData?.profile.settings.localTimeOffsetMinutes || 0;
   const localTimestamp = moment().add(localTimeOffsetMinutes, "minutes").subtract(moment().utcOffset(), "minutes");
@@ -28,19 +31,19 @@ const ProfileModalFormInnerForm = (props: FormUIProps) => {
 
   return (
     <FormUI form={form} initialValues={initialValues}>
-      <Form.Item label="岛主" name="playerName" rules={[]}>
+      <Form.Item label={t("profilesForm.islandName")} name="playerName" rules={[]}>
         <Input />
       </Form.Item>
-      <Form.Item label="岛名" name="islandName" rules={[]}>
+      <Form.Item label={t("profilesForm.playerName")} name="islandName" rules={[]}>
         <Input />
       </Form.Item>
-      <Form.Item label="当前岛上时间" name="localTimestamp" rules={[]}>
+      <Form.Item label={t("profilesForm.currentTime")} name="localTimestamp" rules={[]}>
         <DatePicker style={{ width: "100%" }} showTime format={"YYYY-MM-DD hh:mm A"} />
       </Form.Item>
-      <Form.Item label="好友编号" name="swCode" rules={[]}>
+      <Form.Item label={t("profilesForm.fcCode")} name="swCode" rules={[]}>
         <SWCodeInput />
       </Form.Item>
-      <Form.Item label="机场密码" name="dodoCode" rules={[]}>
+      <Form.Item label={t("profilesForm.dodoCode")} name="dodoCode" rules={[]}>
         <Input />
       </Form.Item>
     </FormUI>

@@ -1,6 +1,7 @@
 import { Tooltip } from "antd";
 import { observer } from "mobx-react";
 import React, { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { RootStore, useRootStore } from "../../shared/rootStore";
 import { AuthFormControl } from "../auth/auth.interfaces";
@@ -68,6 +69,7 @@ const ButtonContainer = styled.div`
 export const ControlPanel = observer(() => {
   const rootStore = useRootStore();
   const controls = MakeControls(rootStore);
+  const { t } = useTranslation();
 
   const { authenticated } = rootStore.authStore;
 
@@ -83,34 +85,38 @@ export const ControlPanel = observer(() => {
     <Fragment>
       <AuthenticationCheck>
         <ButtonContainer>
-          <ButtonUI text={"最新价格"} onClick={controls.onAllPriceRecordsButtonClick} disabled={!shouldShow(true)} />
           <ButtonUI
-            text={"历史价格"}
+            text={t("buttons.latestPriceRecords")}
+            onClick={controls.onAllPriceRecordsButtonClick}
+            disabled={!shouldShow(true)}
+          />
+          <ButtonUI
+            text={t("buttons.historicalPriceRecords")}
             onClick={controls.onPersonalPriceRecordsButtonClick}
             disabled={!shouldShow(true)}
           />
           <ButtonUI
-            text={"价格走势"}
+            text={t("buttons.candlestickGraph")}
             onClick={controls.onPersonalPriceRecordsTrendsButtonClick}
             disabled={!shouldShow(true)}
           />
-          <Tooltip title={"在写了在写了"}>
-            <ButtonUI text={"股价预测"} disabled={!shouldShow(true)} />
+          <Tooltip title={t("buttons.pricePredictionWIPTooltip")}>
+            <ButtonUI text={t("buttons.pricePrediction")} disabled={!shouldShow(true)} />
           </Tooltip>
         </ButtonContainer>
       </AuthenticationCheck>
       <AuthenticationCheck style={{ display: DisplayWhenAuthenticated(true) }}>
         <ButtonContainer>
-          <ButtonUI type={"primary"} text={"炒!"} onClick={controls.onAddRecordsButtonClick} />
-          <ButtonUI text={"刷新"} onClick={controls.onRefreshButtonClick} />
-          <ButtonUI text={"设置"} onClick={controls.onProfileButtonClick} />
-          <ButtonUI type={"danger"} text={"登出"} onClick={controls.onLogoutButtonClick} />
+          <ButtonUI type={"primary"} text={t("buttons.addPriceRecords")} onClick={controls.onAddRecordsButtonClick} />
+          <ButtonUI text={t("buttons.refresh")} onClick={controls.onRefreshButtonClick} />
+          <ButtonUI text={t("buttons.profileSettings")} onClick={controls.onProfileButtonClick} />
+          <ButtonUI type={"danger"} text={t("buttons.logout")} onClick={controls.onLogoutButtonClick} />
         </ButtonContainer>
       </AuthenticationCheck>
       <AuthenticationCheck style={{ display: DisplayWhenAuthenticated(false) }}>
         <ButtonContainer>
-          <ButtonUI text={"注册"} onClick={controls.onRegisterButtonClick} />
-          <ButtonUI text={"登录"} onClick={controls.onLoginButtonClick} />
+          <ButtonUI text={t("buttons.register")} onClick={controls.onRegisterButtonClick} />
+          <ButtonUI text={t("buttons.login")} onClick={controls.onLoginButtonClick} />
         </ButtonContainer>
       </AuthenticationCheck>
     </Fragment>

@@ -7,10 +7,12 @@ import { observer } from "mobx-react";
 import moment, { ISO_8601 } from "moment-timezone";
 
 import React, { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 import { useRootStore } from "../../shared/rootStore";
 
 export const PriceRecordsTrends = observer(() => {
   const { priceRecordsStore, priceRecordsState, profileStore } = useRootStore();
+  const { t } = useTranslation();
 
   const currentUserTimeOffsetMinutes = profileStore.profileData?.profile.settings.localTimeOffsetMinutes;
 
@@ -26,8 +28,6 @@ export const PriceRecordsTrends = observer(() => {
 
     return { price, timestamp };
   });
-
-  console.log(dataList);
 
   const ohlcData = (() => {
     const dataByDay = _.values(_.groupBy(dataList, (i) => i.timestamp.format("YYYYMMDD")));
@@ -104,7 +104,7 @@ export const PriceRecordsTrends = observer(() => {
     },
     yAxis: {
       title: {
-        text: "价格",
+        text: t("candlestickGraph.yAxisTitle"),
       },
     },
     legend: {
@@ -113,7 +113,7 @@ export const PriceRecordsTrends = observer(() => {
     series: [
       {
         type: "candlestick",
-        name: "我的价格",
+        name: t("candlestickGraph.myPriceTag"),
         data: ohlcData,
         dataGrouping: {
           units: [

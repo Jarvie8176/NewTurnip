@@ -1,0 +1,38 @@
+import { TranslationStrings } from "../i18n.interface";
+import { GetDefaultTranslations } from "./default";
+
+export const XLTN_EN: TranslationStrings = GetDefaultTranslations();
+
+XLTN_EN.title = "Turnip Price Tracker";
+XLTN_EN.introMessage = "Join the dev team:";
+XLTN_EN.buttons.latestPriceRecords = "Latest prices";
+XLTN_EN.buttons.historicalPriceRecords = "History";
+XLTN_EN.buttons.candlestickGraph = "Trends";
+XLTN_EN.buttons.pricePrediction = "Prediction";
+XLTN_EN.buttons.pricePredictionWIPTooltip = "Work in Progress!";
+XLTN_EN.buttons.addPriceRecords = "add";
+XLTN_EN.buttons.refresh = "refresh";
+XLTN_EN.buttons.profileSettings = "settings";
+XLTN_EN.buttons.login = "login";
+XLTN_EN.buttons.logout = "logout";
+XLTN_EN.buttons.register = "register";
+XLTN_EN.priceRecordsTable.columns.playerName = "Player";
+XLTN_EN.priceRecordsTable.columns.islandName = "Island Name";
+XLTN_EN.priceRecordsTable.columns.contactInfo = "Contact";
+XLTN_EN.priceRecordsTable.columns.price = "Price";
+XLTN_EN.priceRecordsTable.columns.localTimeWhenRecorded = "When (local)";
+XLTN_EN.priceRecordsTable.columns.validUntil = "Valid Until";
+XLTN_EN.priceRecordsTable.expired = "Expired";
+XLTN_EN.candlestickGraph.myPriceTag = "My Price";
+XLTN_EN.candlestickGraph.yAxisTitle = "Price";
+XLTN_EN.addPriceRecordForm.playerName = "Player";
+XLTN_EN.addPriceRecordForm.islandName = "Island Name";
+XLTN_EN.addPriceRecordForm.fcCode = "FC Code";
+XLTN_EN.addPriceRecordForm.price = "Price";
+XLTN_EN.addPriceRecordForm.recordTime = "Reported At";
+XLTN_EN.addPriceRecordForm.inputFieldPlaceholder = `Please update in "settings"`;
+XLTN_EN.profilesForm.playerName = "Player";
+XLTN_EN.profilesForm.islandName = "Island Name";
+XLTN_EN.profilesForm.currentTime = "Current In-game Time";
+XLTN_EN.profilesForm.fcCode = "FC Code";
+XLTN_EN.profilesForm.dodoCode = "Dodo Code";
