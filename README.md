@@ -16,7 +16,7 @@ API docs: https://kabu.wiarlawd.me/api/docs
 * create a database
 * create uuid extension:
 ```sql
-create exetension if not exists "uuid-ossp";
+create extension if not exists "uuid-ossp";
 ```
 
 * install packages
