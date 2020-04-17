@@ -1,6 +1,3 @@
-import { ApiExtraModels } from "@nestjs/swagger";
-
-@ApiExtraModels()
 // fixme: type doesn't match actual entity?
 export class PriceRecordsDto {
   id!: string;

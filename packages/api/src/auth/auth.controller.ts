@@ -8,7 +8,7 @@ import { LoginDto } from "./dtos/login.dto";
 import { LocalAuthGuard } from "./local-auth.guard";
 
 @Controller()
-@ApiTags("auth")
+@ApiTags("AuthN")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
-import { ApiOperation } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AddPriceRecords, UpdatePriceRecords } from "@turnip-market/dtos";
 import { User } from "../auth/auth.decorator";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
@@ -9,6 +9,8 @@ import { GetPriceRecordsDto } from "./dtos/getPriceRecords.dto";
 import { PriceRecordsService } from "./priceRecords.service";
 
 @Controller()
+@ApiBearerAuth()
+@ApiTags("PriceRecords")
 export class PriceRecordsController {
   constructor(private readonly priceRecordsService: PriceRecordsService) {}
 

@@ -9,7 +9,7 @@ import { ProfilesService } from "./profiles.service";
 
 @Controller()
 @ApiBearerAuth()
-@ApiTags("profiles")
+@ApiTags("Profiles")
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 
