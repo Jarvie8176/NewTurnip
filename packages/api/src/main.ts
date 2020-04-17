@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import * as helmet from "helmet";
 import { AppModule } from "./app.module";
 import { TypedConfigService } from "./config/typed-config.service";
+import swStats = require("swagger-stats");
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -23,6 +24,8 @@ async function bootstrap(): Promise<void> {
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup("/docs", app, document);
+
+  app.use(swStats.getMiddleware({ swaggerSpec: document }));
 
   const port = PORT;
   await app.listen(port);
