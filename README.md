@@ -26,6 +26,11 @@ create extension if not exists "uuid-ossp";
 yarn install
 ```
 
+* build dependencies (@turnip-market/dtos)
+```shell script
+yarn build
+```
+
 * update `.env` file in `packages/api` (template is `.env.example`)
 
 * start services
